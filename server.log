@@ -1,0 +1,5 @@
+INFO:     Started server process [7064]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('127.0.0.1', 8000): address alreINFO:     127.0.0.1:45872 - "GET /search?q=sunglasses&max_results=3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56478 - "GET /healthz HTTP/1.1" 200 OK

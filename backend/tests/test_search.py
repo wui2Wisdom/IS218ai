@@ -18,6 +18,10 @@ def test_healthz_ok():
 def test_search_requires_api_key(monkeypatch):
     """Test 2: Search without API key should fail"""
     monkeypatch.delenv("TAVILY_API_KEY", raising=False)
+    # Need to reload the module to pick up the env change
+    import importlib
+    import backend.app as app_module
+    importlib.reload(app_module)
     from backend.app import app
     client = TestClient(app)
     r = client.get("/search", params={"q": "chanel bag"})
