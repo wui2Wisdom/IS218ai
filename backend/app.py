@@ -32,6 +32,21 @@ class SearchResponse(BaseModel):
     results: List[SearchResult] = Field(default_factory=list)
 
 
+class DupeItem(BaseModel):
+    title: str
+    url: str
+    snippet: str
+    site: Optional[str] = None
+    price: Optional[float] = None
+    dupeScore: int
+    reason: str
+
+
+class DupeResponse(BaseModel):
+    query: str
+    items: List[DupeItem] = Field(default_factory=list)
+
+
 @app.get("/healthz")
 def healthz():
     """Health check endpoint"""
@@ -86,3 +101,91 @@ async def search(
         raise HTTPException(status_code=502, detail=f"Provider error: {e}") from e
     
     return SearchResponse(query=q, results=normalize(raw, max_results))
+
+
+# Retailer scoring weights
+DUPE_SITES = {
+    "amazon": 10,
+    "walmart": 9,
+    "target": 9,
+    "etsy": 7,
+    "aliexpress": 6,
+    "zara": 7,
+    "hm.com": 7,
+    "shein": 5,
+    "uniqlo": 7,
+    "asos": 7,
+}
+
+
+def extract_site(url: str) -> Optional[str]:
+    """Extract domain from URL"""
+    try:
+        host = url.split("//", 1)[1].split("/", 1)[0].lower()
+        return host
+    except Exception:
+        return None
+
+
+def extract_price(text: str) -> Optional[float]:
+    """Extract price from text using regex"""
+    import re
+    m = re.search(r"\$(\d+(?:\.\d{1,2})?)", text)
+    return float(m.group(1)) if m else None
+
+
+def score_dupe(result: SearchResult) -> DupeItem:
+    """Calculate dupe score for a search result"""
+    site = extract_site(result.url) or ""
+    base = 50
+    bump = 0
+    
+    # Check if site is a recognized retailer
+    for key, val in DUPE_SITES.items():
+        if key in site:
+            bump = max(bump, val)
+    
+    # Bonus for visible price
+    price = extract_price(result.snippet or "")
+    if price is not None:
+        bump += 5
+    
+    score = max(0, min(100, base + bump))
+    
+    # Generate reason
+    reason = "Recognized retailer" if bump > 0 else "General relevance"
+    if price is not None:
+        reason += " + visible price"
+    
+    return DupeItem(
+        title=result.title,
+        url=result.url,
+        snippet=result.snippet,
+        site=site or None,
+        price=price,
+        dupeScore=score,
+        reason=reason,
+    )
+
+
+@app.get("/dupes", response_model=DupeResponse)
+async def dupes(
+    q: str = Query(..., min_length=2, max_length=256),
+    max_results: int = Query(8, ge=1, le=20),
+):
+    """Find affordable dupes with scoring"""
+    # Enhance query to focus on dupes
+    compound_query = f"dupe {q} affordable alternative"
+    
+    try:
+        raw = await tavily_search(compound_query, max_results)
+    except httpx.HTTPError as e:
+        raise HTTPException(status_code=502, detail=f"Provider error: {e}") from e
+    
+    normalized = normalize(raw, max_results)
+    items = [score_dupe(r) for r in normalized]
+    
+    # Sort by dupeScore descending (highest first)
+    items.sort(key=lambda x: x.dupeScore, reverse=True)
+    
+    return DupeResponse(query=q, items=items)

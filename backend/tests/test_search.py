@@ -76,7 +76,10 @@ def test_dupes_scoring_with_mock(monkeypatch):
         async def __aexit__(self, *a): ...
         async def post(self, *a, **k): return FakeResp()
 
+    # Import fresh and patch httpx
+    import importlib
     import backend.app as appmod
+    importlib.reload(appmod)
     monkeypatch.setattr(appmod.httpx, "AsyncClient", FakeClient)
 
     from backend.app import app
