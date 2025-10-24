@@ -354,7 +354,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👤 Author
 
-**wui2Wisdom**
+**Wisdom Ihuoma**
 
 - GitHub: [@wui2Wisdom](https://github.com/wui2Wisdom)
 - Repository: [IS218ai](https://github.com/wui2Wisdom/IS218ai)
