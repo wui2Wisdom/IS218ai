@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DupeFinder - Find Affordable Dupes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .modal {
+            display: none;
+        }
+        .modal.active {
+            display: flex;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-indigo-600 to-purple-600 py-6 px-4 shadow-lg">
+        <div class="max-w-6xl mx-auto">
+            <h1 class="text-3xl md:text-4xl font-bold text-center">💎 DupeFinder</h1>
+            <p class="text-center text-indigo-100 mt-2">Find affordable alternatives to luxury items</p>
+        </div>
+    </header>
+
+    <!-- Search Section -->
+    <section class="max-w-6xl mx-auto px-4 py-8">
+        <div class="bg-gray-800 rounded-lg p-6 shadow-xl">
+            <div class="flex flex-col md:flex-row gap-4">
+                <!-- Search Input -->
+                <div class="flex-1">
+                    <label for="searchInput" class="block text-sm font-medium text-gray-300 mb-2">
+                        Search for luxury items
+                    </label>
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        placeholder="e.g., quilted chain bag, aviator sunglasses..." 
+                        class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    />
+                </div>
+                
+                <!-- Sort Dropdown -->
+                <div class="md:w-48">
+                    <label for="sort" class="block text-sm font-medium text-gray-300 mb-2">
+                        Sort by
+                    </label>
+                    <select 
+                        id="sort" 
+                        class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    >
+                        <option value="popular">Best Match</option>
+                        <option value="price_asc">Price: Low to High</option>
+                        <option value="price_desc">Price: High to Low</option>
+                        <option value="newest">Newest First</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Search Button -->
+            <button 
+                id="searchBtn" 
+                class="mt-4 w-full md:w-auto px-8 py-3 bg-indigo-600 hover:bg-indigo-700 rounded-lg font-semibold transition-colors duration-200"
+            >
+                🔍 Find Dupes
+            </button>
+        </div>
+    </section>
+
+    <!-- Loading State -->
+    <div id="loadingState" class="hidden max-w-6xl mx-auto px-4 py-8 text-center">
+        <div class="animate-pulse">
+            <div class="text-4xl mb-4">🔄</div>
+            <p class="text-xl text-gray-400">Searching for the best dupes...</p>
+        </div>
+    </div>
+
+    <!-- Error State -->
+    <div id="errorState" class="hidden max-w-6xl mx-auto px-4 py-8">
+        <div class="bg-red-900/30 border border-red-700 rounded-lg p-6 text-center">
+            <p class="text-xl text-red-400" id="errorMessage">Something went wrong. Please try again.</p>
+        </div>
+    </div>
+
+    <!-- Results Grid -->
+    <section class="max-w-6xl mx-auto px-4 py-8">
+        <div id="resultsCount" class="text-gray-400 mb-4 hidden">
+            <span id="countText"></span>
+        </div>
+        
+        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Initial guidance -->
+            <div class="col-span-full text-center py-12">
+                <div class="text-6xl mb-4">🔎</div>
+                <h3 class="text-2xl font-semibold mb-2">Start Searching</h3>
+                <p class="text-gray-400 mb-4">Try searching for:</p>
+                <div class="flex flex-wrap gap-2 justify-center">
+                    <span class="px-3 py-1 bg-gray-800 rounded-full text-sm cursor-pointer hover:bg-gray-700 transition-colors" onclick="quickSearch('quilted chain bag')">quilted chain bag</span>
+                    <span class="px-3 py-1 bg-gray-800 rounded-full text-sm cursor-pointer hover:bg-gray-700 transition-colors" onclick="quickSearch('aviator sunglasses')">aviator sunglasses</span>
+                    <span class="px-3 py-1 bg-gray-800 rounded-full text-sm cursor-pointer hover:bg-gray-700 transition-colors" onclick="quickSearch('chunky sneakers')">chunky sneakers</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Modal -->
+    <div id="productModal" class="modal fixed inset-0 bg-black bg-opacity-75 items-center justify-center z-50 p-4">
+        <div class="bg-gray-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div id="modalContent">
+                <!-- Content will be inserted here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // State
+        let items = [];
+        let filtered = [];
+
+        // Elements
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const sortSelect = document.getElementById('sort');
+        const productGrid = document.getElementById('productGrid');
+        const productModal = document.getElementById('productModal');
+        const modalContent = document.getElementById('modalContent');
+        const loadingState = document.getElementById('loadingState');
+        const errorState = document.getElementById('errorState');
+        const errorMessage = document.getElementById('errorMessage');
+        const resultsCount = document.getElementById('resultsCount');
+        const countText = document.getElementById('countText');
+
+        // API Configuration
+        const API_BASE = 'http://localhost:8000';
+
+        // Fetch dupes from backend
+        async function fetchDupes(query) {
+            if (!query || query.trim().length < 2) return [];
+            
+            const url = `${API_BASE}/dupes?q=${encodeURIComponent(query)}&max_results=12`;
+            const resp = await fetch(url);
+            
+            if (!resp.ok) {
+                throw new Error(`Search failed: ${resp.status}`);
+            }
+            
+            const data = await resp.json();
+            return (data.items || []).map((it, idx) => ({
+                id: idx + 1,
+                name: it.title,
+                price: it.price ?? null,
+                image: `https://placehold.co/400x500/1F2937/FFFFFF?text=${encodeURIComponent('DupeFinder')}`,
+                url: it.url,
+                snippet: it.snippet,
+                site: it.site,
+                dupeScore: it.dupeScore,
+                reason: it.reason
+            }));
+        }
+
+        // Render product cards
+        function renderProducts(list) {
+            if (list.length === 0) {
+                productGrid.innerHTML = `
+                    <div class="col-span-full text-center py-12">
+                        <div class="text-6xl mb-4">😕</div>
+                        <h3 class="text-2xl font-semibold mb-2">No dupes found</h3>
+                        <p class="text-gray-400">Try a different search term</p>
+                    </div>
+                `;
+                resultsCount.classList.add('hidden');
+                return;
+            }
+
+            resultsCount.classList.remove('hidden');
+            countText.textContent = `Found ${list.length} dupe${list.length !== 1 ? 's' : ''}`;
+
+            productGrid.innerHTML = '';
+            list.forEach(p => {
+                const priceText = p.price ? `$${p.price.toFixed(2)}` : 'See site';
+                const scoreColor = p.dupeScore >= 60 ? 'text-green-400' : p.dupeScore >= 55 ? 'text-yellow-400' : 'text-gray-400';
+                
+                const card = document.createElement('div');
+                card.className = 'bg-gray-800 rounded-lg overflow-hidden cursor-pointer transform hover:scale-105 transition-transform duration-200 shadow-lg hover:shadow-xl';
+                card.innerHTML = `
+                    <div class="relative">
+                        <img src="${p.image}" alt="${p.name}" class="w-full h-64 object-cover">
+                        <div class="absolute top-2 right-2 bg-gray-900 bg-opacity-90 px-2 py-1 rounded-full">
+                            <span class="${scoreColor} text-xs font-bold">★ ${p.dupeScore}</span>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h4 class="font-semibold text-sm mb-2 line-clamp-2 h-10">${p.name}</h4>
+                        <div class="flex items-center justify-between">
+                            <p class="text-indigo-400 font-bold">${priceText}</p>
+                            ${p.site ? `<span class="text-xs text-gray-400 truncate ml-2">${p.site.replace('www.', '')}</span>` : ''}
+                        </div>
+                        <div class="mt-2 text-xs text-gray-500 italic line-clamp-1">
+                            ${p.reason}
+                        </div>
+                    </div>
+                `;
+                card.addEventListener('click', () => openModal(p.id));
+                productGrid.appendChild(card);
+            });
+        }
+
+        // Open product modal
+        function openModal(id) {
+            const p = filtered.find(x => x.id === id);
+            if (!p) return;
+
+            const priceDisplay = p.price ? `$${p.price.toFixed(2)}` : 'See site for pricing';
+            const scoreColor = p.dupeScore >= 60 ? 'text-green-400' : p.dupeScore >= 55 ? 'text-yellow-400' : 'text-gray-400';
+
+            modalContent.innerHTML = `
+                <div class="relative">
+                    <button id="closeModal" class="absolute top-4 right-4 bg-gray-900 bg-opacity-75 rounded-full p-2 text-white hover:bg-opacity-100 z-10">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                    <img src="${p.image.replace('400x500', '800x600')}" alt="${p.name}" class="w-full h-80 object-cover rounded-t-lg">
+                </div>
+                <div class="p-6">
+                    <div class="flex items-start justify-between mb-4">
+                        <h2 class="text-2xl font-bold flex-1">${p.name}</h2>
+                        <div class="ml-4 text-right">
+                            <div class="${scoreColor} text-3xl font-bold">★ ${p.dupeScore}</div>
+                            <div class="text-xs text-gray-400 mt-1">Dupe Score</div>
+                        </div>
+                    </div>
+                    
+                    ${p.site ? `<p class="text-gray-400 text-sm mb-2">From: <span class="text-indigo-400">${p.site}</span></p>` : ''}
+                    
+                    <p class="text-3xl font-bold text-indigo-400 mb-4">${priceDisplay}</p>
+                    
+                    <p class="text-gray-300 mb-6 leading-relaxed">${p.snippet || 'No description available.'}</p>
+                    
+                    <div class="bg-gray-700 rounded-lg p-4 mb-6">
+                        <h3 class="font-semibold text-lg mb-2 flex items-center">
+                            <span class="mr-2">💡</span>
+                            Why this is a good dupe
+                        </h3>
+                        <p class="text-gray-300">${p.reason}</p>
+                        <div class="mt-3 text-sm text-gray-400">
+                            <p>• Score based on retailer trust and transparency</p>
+                            ${p.price ? '<p>• Price is visible and competitive</p>' : ''}
+                            ${p.dupeScore >= 60 ? '<p>• From a recognized trusted retailer</p>' : ''}
+                        </div>
+                    </div>
+                    
+                    <a href="${p.url}" target="_blank" rel="noopener noreferrer" 
+                       class="block w-full text-center bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200">
+                        View on ${p.site ? p.site.replace('www.', '').split('.')[0] : 'Retailer Site'} →
+                    </a>
+                </div>
+            `;
+
+            productModal.classList.add('active');
+            document.getElementById('closeModal').addEventListener('click', closeModal);
+        }
+
+        // Close modal
+        function closeModal() {
+            productModal.classList.remove('active');
+        }
+
+        // Sort and render
+        function sortAndRender() {
+            const sortBy = sortSelect.value;
+            filtered = [...items];
+
+            if (sortBy === 'price_asc') {
+                filtered.sort((a, b) => (a.price ?? Infinity) - (b.price ?? Infinity));
+            } else if (sortBy === 'price_desc') {
+                filtered.sort((a, b) => (b.price ?? -1) - (a.price ?? -1));
+            } else if (sortBy === 'popular') {
+                filtered.sort((a, b) => b.dupeScore - a.dupeScore);
+            } else if (sortBy === 'newest') {
+                filtered.reverse();
+            }
+
+            renderProducts(filtered);
+        }
+
+        // Search handler
+        async function performSearch() {
+            const query = searchInput.value.trim();
+            if (!query || query.length < 2) {
+                errorMessage.textContent = 'Please enter at least 2 characters';
+                errorState.classList.remove('hidden');
+                setTimeout(() => errorState.classList.add('hidden'), 3000);
+                return;
+            }
+
+            try {
+                // Show loading
+                loadingState.classList.remove('hidden');
+                errorState.classList.add('hidden');
+                productGrid.innerHTML = '';
+                resultsCount.classList.add('hidden');
+
+                // Fetch data
+                items = await fetchDupes(query);
+                filtered = items;
+
+                // Hide loading
+                loadingState.classList.add('hidden');
+
+                // Render results
+                sortAndRender();
+            } catch (e) {
+                loadingState.classList.add('hidden');
+                errorMessage.textContent = `Error: ${e.message}. Make sure the backend is running.`;
+                errorState.classList.remove('hidden');
+                console.error(e);
+            }
+        }
+
+        // Quick search helper
+        function quickSearch(query) {
+            searchInput.value = query;
+            performSearch();
+        }
+
+        // Event listeners
+        searchBtn.addEventListener('click', performSearch);
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') performSearch();
+        });
+        sortSelect.addEventListener('change', sortAndRender);
+        productModal.addEventListener('click', (e) => {
+            if (e.target === productModal) closeModal();
+        });
+
+        // Initial message
+        console.log('🚀 DupeFinder ready! Backend should be running at http://localhost:8000');
+    </script>
+</body>
+</html>
