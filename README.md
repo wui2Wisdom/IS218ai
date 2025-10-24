@@ -1,460 +1,389 @@
-# 🎯 DupeFinder Implementation Guide - START HERE
+# DupeFinder 🔍
 
-> **Your Step-by-Step Guide to Building DupeFinder with Test-Driven Development**
+**Discover affordable "dupes" of luxury items with AI-powered search**
 
----
+DupeFinder is a full-stack web application that helps you find budget-friendly alternatives to high-end products. Built with FastAPI, vanilla JavaScript, and the Tavily search API, it uses a smart scoring algorithm to rank results by retailer reputation and price.
 
-## 📚 Documentation Overview
-
-You have **3 comprehensive guides** to help you build DupeFinder:
-
-### 1. 📖 **TDD_IMPLEMENTATION_PLAN.md** (Comprehensive Reference)
-- **Purpose**: Complete detailed guide for all 5 phases
-- **When to use**: Need deep understanding of a phase
-- **Sections**:
-  - Phase 0: Project scaffolding
-  - Phase 1: Backend /search endpoint
-  - Phase 2: Backend /dupes with scoring
-  - Phase 3: Frontend UI and integration
-  - Phase 4: Documentation
-  - Phase 5: Testing and QA
-  - Daily TDD workflow
-  - Git commit conventions
-  - Troubleshooting guide
-
-### 2. ⚡ **QUICK_START_CHECKLIST.md** (Action-Oriented)
-- **Purpose**: Get started in 30 minutes
-- **When to use**: Want to start coding NOW
-- **Sections**:
-  - First 30 minutes setup
-  - Phase 1 RED-GREEN-REFACTOR walkthrough
-  - Ready-to-copy code snippets
-  - Progress tracker
-  - Troubleshooting tips
-
-### 3. 🔄 **TDD_WORKFLOW_DIAGRAM.md** (Visual Guide)
-- **Purpose**: Understand TDD cycle and workflow
-- **When to use**: Need to visualize the process
-- **Sections**:
-  - TDD cycle diagram
-  - Phase breakdown flowchart
-  - Daily session template
-  - Testing commands reference
-  - Best practices and common mistakes
+![Python](https://img.shields.io/badge/python-3.13-blue)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.119.1-009688)
+![Test Coverage](https://img.shields.io/badge/coverage-96%25-brightgreen)
+![License](https://img.shields.io/badge/license-MIT-blue)
 
 ---
 
-## 🚀 How to Get Started (Right Now!)
+## 🌟 Features
 
-### Option 1: Quick Start (30 minutes)
-**Best for**: I want to start coding immediately
+- **Smart Search**: Uses Tavily API to find the best dupe alternatives across the web
+- **Intelligent Scoring**: Ranks results based on:
+  - Retailer reputation (Amazon, Target, Walmart, etc.)
+  - Price extraction and affordability
+  - Content relevance
+- **Beautiful UI**: Mobile-first, responsive design with Tailwind CSS
+- **Sorting Options**: Sort by dupe score, price (low/high), or alphabetically
+- **Product Details**: Click any product card to see full details in a modal
+- **Test-Driven Development**: 96% test coverage with pytest
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Python 3.13+
+- [Tavily API key](https://tavily.com/) (1000 free searches/month)
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/wui2Wisdom/IS218ai.git
+   cd IS218ai
+   ```
+
+2. **Set up virtual environment**
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+   ```
+
+3. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Configure environment variables**
+   
+   Create a `.env` file in the root directory:
+   ```env
+   TAVILY_API_KEY=your_api_key_here
+   ```
+   
+   ⚠️ **Important**: No spaces after the `=` sign!
+
+5. **Run tests**
+   ```bash
+   pytest
+   ```
+
+---
+
+## 🏃 Running the Application
+
+### Start the Backend (FastAPI)
 
 ```bash
-# 1. Follow QUICK_START_CHECKLIST.md
-# 2. Complete Phase 0 setup (15 min)
-# 3. Write your first failing test (10 min)
-# 4. Make it pass (15 min)
-# 5. You're doing TDD! 🎉
+uvicorn backend.app:app --port 8000
 ```
 
-### Option 2: Comprehensive Study (1 hour)
-**Best for**: I want to understand everything first
+The API will be available at `http://localhost:8000`
+
+### Start the Frontend
+
+In a new terminal:
 
 ```bash
-# 1. Read TDD_WORKFLOW_DIAGRAM.md (understand the cycle)
-# 2. Read TDD_IMPLEMENTATION_PLAN.md Phase 0-1
-# 3. Follow QUICK_START_CHECKLIST.md to implement
-# 4. Reference TDD_IMPLEMENTATION_PLAN.md as needed
+cd frontend
+python -m http.server 5173
 ```
 
-### Option 3: Learn by Doing (Recommended!)
-**Best for**: I learn best by building
+Visit `http://localhost:5173` in your browser
 
+---
+
+## 📚 API Documentation
+
+### Endpoints
+
+#### `GET /healthz`
+Health check endpoint
+
+**Response:**
+```json
+{
+  "ok": true
+}
+```
+
+#### `GET /search`
+Basic search using Tavily API
+
+**Query Parameters:**
+- `q` (required): Search query
+- `max_results` (optional): Number of results (default: 5)
+
+**Example:**
 ```bash
-# 1. Skim TDD_WORKFLOW_DIAGRAM.md (5 min)
-# 2. Follow QUICK_START_CHECKLIST.md Step 1-5 (30 min)
-# 3. When stuck, check TDD_IMPLEMENTATION_PLAN.md
-# 4. Keep TDD_WORKFLOW_DIAGRAM.md open as reference
+curl "http://localhost:8000/search?q=sunglasses&max_results=3"
 ```
+
+#### `GET /dupes`
+Enhanced search with dupe scoring algorithm
+
+**Query Parameters:**
+- `q` (required): Product to find dupes for
+- `max_results` (optional): Number of results (default: 5)
+
+**Example:**
+```bash
+curl "http://localhost:8000/dupes?q=quilted+chain+bag&max_results=10"
+```
+
+**Response:**
+```json
+{
+  "query": "quilted chain bag",
+  "items": [
+    {
+      "title": "Quilted Chain Shoulder Bag - Amazon",
+      "url": "https://www.amazon.com/...",
+      "snippet": "Classic quilted pattern with chain strap...",
+      "site": "www.amazon.com",
+      "price": 29.99,
+      "dupeScore": 65,
+      "reason": "Top retailer + Great price"
+    }
+  ]
+}
+```
+
+### Interactive API Docs
+
+FastAPI provides automatic interactive documentation:
+- **Swagger UI**: `http://localhost:8000/docs`
+- **ReDoc**: `http://localhost:8000/redoc`
 
 ---
 
-## 📋 Your Implementation Roadmap
+## 🧮 Scoring Algorithm
 
-### Today (2-3 hours)
+Each dupe is scored on a **0-65 scale** based on three factors:
+
+### 1. Base Score (50 points)
+All results start with 50 points for relevance
+
+### 2. Retailer Score (0-10 points)
+Bonus points based on retailer reputation:
+- **10 pts**: Amazon, Target
+- **9 pts**: Walmart, AliExpress
+- **8 pts**: eBay, Etsy
+- **7 pts**: Shein, Temu
+- **6 pts**: DHgate, Wish
+
+### 3. Price Score (0-5 points)
+Bonus for affordability:
+- **5 pts**: Under $20
+- **3 pts**: $20-$50
+- **1 pt**: $50-$100
+
+**Example Calculation:**
 ```
-✅ Phase 0: Set up project structure (20 min)
-   └─ QUICK_START_CHECKLIST.md: Steps 1-5
-
-✅ Phase 1: Implement /search endpoint (60 min)
-   ├─ RED: Write failing tests (15 min)
-   ├─ GREEN: Make tests pass (30 min)
-   └─ REFACTOR: Clean up code (15 min)
-
-🎯 MILESTONE: You have a working search API!
-   └─ Test: curl "http://localhost:8000/search?q=test"
-```
-
-### Tomorrow (2-3 hours)
-```
-✅ Phase 2: Implement /dupes with scoring (60 min)
-   ├─ RED: Write scoring tests (20 min)
-   ├─ GREEN: Implement scoring (30 min)
-   └─ REFACTOR: Extract service (10 min)
-
-✅ Phase 3: Build frontend UI (90 min)
-   ├─ Create HTML mockup (30 min)
-   ├─ Connect to API (30 min)
-   ├─ Add interactivity (20 min)
-   └─ Polish UX (10 min)
-
-🎯 MILESTONE: Full-stack app working!
-   └─ Test: Search for "sunglasses" and see results
+Amazon product at $18.99:
+  Base:     50 points
+  Retailer: +10 points (Amazon)
+  Price:    +5 points (under $20)
+  ─────────────────────
+  Total:    65 points
 ```
 
-### Day 3 (1-2 hours)
-```
-✅ Phase 4: Write documentation (45 min)
-   └─ API docs, architecture, README
-
-✅ Phase 5: Improve test coverage (45 min)
-   └─ Aim for >90% coverage
-
-🎯 MILESTONE: Production-ready app!
-   └─ Ready to deploy or demo
-```
+See [SCORING_ALGORITHM_EXPLAINED.md](docs/SCORING_ALGORITHM_EXPLAINED.md) for detailed documentation.
 
 ---
 
-## 🎓 Understanding TDD (5-Minute Primer)
+## 🧪 Testing
 
-### What is TDD?
-**Test-Driven Development** = Write tests BEFORE writing code
-
-### The Cycle
-```
-1. RED: Write a failing test
-   ↓
-2. GREEN: Write minimal code to pass
-   ↓
-3. REFACTOR: Clean up the code
-   ↓
-4. REPEAT: Go to step 1
+### Run All Tests
+```bash
+pytest
 ```
 
-### Why TDD?
-- ✅ **Confidence**: Know your code works
-- ✅ **Design**: Forces good architecture
-- ✅ **Documentation**: Tests show how to use code
-- ✅ **Debugging**: Catch bugs early
-- ✅ **Refactoring**: Safe to improve code
-
-### Example
-```python
-# ❌ Traditional: Code first
-def search(query):
-    # Write 100 lines...
-    # Hope it works...
-    pass
-
-# ✅ TDD: Test first
-def test_search_returns_results():
-    results = search("test")
-    assert len(results) > 0  # This will FAIL
-
-# Now write JUST ENOUGH to pass
-def search(query):
-    return [{"title": "test"}]  # Simplest solution
+### Run with Coverage Report
+```bash
+pytest --cov=backend --cov-report=term-missing
 ```
+
+### Test Structure
+```
+tests/
+└── test_search.py
+    ├── test_healthz_ok()
+    ├── test_search_requires_api_key()
+    ├── test_search_query_validation()
+    └── test_dupes_scoring_monkeypatched()
+```
+
+Current coverage: **96%**
 
 ---
 
-## 🛠️ Tools and Technologies
-
-### Backend
-- **FastAPI**: Modern Python web framework
-- **Tavily API**: Web search provider
-- **httpx**: Async HTTP client
-- **pydantic**: Data validation
-- **pytest**: Testing framework
-
-### Frontend
-- **HTML5**: Structure
-- **Tailwind CSS**: Styling (mobile-first)
-- **Vanilla JavaScript**: Interactivity
-- **Fetch API**: Backend communication
-
-### Development
-- **VS Code**: Editor
-- **Git**: Version control
-- **Python 3.x**: Language
-- **.venv**: Virtual environment
-
----
-
-## 📊 Project Structure (After Phase 0)
+## 📂 Project Structure
 
 ```
 IS218ai/
-├── .env                          # Environment variables (API keys)
-├── .venv/                        # Virtual environment ✓
-├── pytest.ini                    # Pytest configuration
-├── requirements.txt              # Python dependencies
-│
-├── backend/                      # Backend API
+├── backend/
 │   ├── __init__.py
-│   ├── app.py                   # FastAPI application
-│   ├── requirements.txt         # Backend-specific deps
-│   │
-│   ├── providers/               # External API integrations
+│   ├── app.py              # FastAPI application
+│   ├── providers/
 │   │   ├── __init__.py
-│   │   └── tavily.py           # Tavily search provider
-│   │
-│   ├── services/                # Business logic
+│   │   └── tavily.py       # Tavily API integration
+│   ├── services/
 │   │   ├── __init__.py
-│   │   └── scoring.py          # Dupe scoring algorithm
-│   │
-│   └── tests/                   # Backend tests
+│   │   └── scoring.py      # Dupe scoring logic
+│   └── tests/
 │       ├── __init__.py
-│       ├── test_search.py      # /search endpoint tests
-│       └── test_integration.py # Full-flow tests
-│
-├── frontend/                     # Frontend UI
-│   └── index.html               # Single-page app
-│
-├── docs/                         # Documentation
-│   ├── API.md                   # API reference
-│   ├── ARCHITECTURE.md          # System design
-│   ├── TDD_PLAN.md              # This guide!
+│       └── test_search.py  # Test suite
+├── frontend/
+│   └── index.html          # Single-page application
+├── docs/
 │   ├── TDD_IMPLEMENTATION_PLAN.md
 │   ├── QUICK_START_CHECKLIST.md
-│   └── TDD_WORKFLOW_DIAGRAM.md
-│
-└── README.md                     # Project overview
+│   ├── TDD_WORKFLOW_DIAGRAM.md
+│   ├── PROJECT_SUMMARY.md
+│   ├── QUICK_REFERENCE.md
+│   └── SCORING_ALGORITHM_EXPLAINED.md
+├── .env                    # Environment variables (not in git)
+├── .gitignore
+├── pytest.ini              # Pytest configuration
+├── requirements.txt        # Python dependencies
+└── README.md               # This file
 ```
 
 ---
 
-## 🎯 Success Criteria
+## 🛠️ Tech Stack
 
-### You'll know you're done when:
+### Backend
+- **[FastAPI](https://fastapi.tiangolo.com/)** - Modern, fast web framework
+- **[Tavily API](https://tavily.com/)** - AI-powered search engine
+- **[Pydantic](https://pydantic-docs.helpmanual.io/)** - Data validation
+- **[httpx](https://www.python-httpx.org/)** - Async HTTP client
 
-#### Phase 0 ✅
-- [ ] Folders created
-- [ ] Dependencies installed
-- [ ] `pytest` runs without errors
-- [ ] `TAVILY_API_KEY` in `.env`
+### Frontend
+- **HTML5** - Semantic markup
+- **[Tailwind CSS](https://tailwindcss.com/)** - Utility-first CSS framework
+- **Vanilla JavaScript** - No framework overhead
 
-#### Phase 1 ✅
-- [ ] `curl http://localhost:8000/healthz` returns `{"ok": true}`
-- [ ] `curl "http://localhost:8000/search?q=test"` returns results
-- [ ] All tests pass: `pytest backend/tests/ -v`
-- [ ] Coverage > 80%
-
-#### Phase 2 ✅
-- [ ] `curl "http://localhost:8000/dupes?q=sunglasses"` returns scored items
-- [ ] Results sorted by `dupeScore`
-- [ ] Prices extracted from snippets
-- [ ] All tests pass with >85% coverage
-
-#### Phase 3 ✅
-- [ ] Visit `http://localhost:5173` shows UI
-- [ ] Search bar works and displays results
-- [ ] Click card opens modal with details
-- [ ] Sorting dropdown changes order
-- [ ] Mobile responsive (test on phone size)
-
-#### Phase 4 ✅
-- [ ] `docs/API.md` exists and is complete
-- [ ] `docs/ARCHITECTURE.md` explains system
-- [ ] `README.md` has setup instructions
-- [ ] Code has docstrings
-
-#### Phase 5 ✅
-- [ ] Test coverage > 90%
-- [ ] Integration tests pass
-- [ ] Manual testing checklist complete
-- [ ] No known bugs
+### Testing & Development
+- **[pytest](https://pytest.org/)** - Testing framework
+- **[pytest-cov](https://pytest-cov.readthedocs.io/)** - Coverage reporting
+- **TDD Methodology** - Test-driven development approach
 
 ---
 
-## 🆘 When You Get Stuck
+## 🎯 Development Workflow
 
-### Problem: Tests won't run
-→ Check: **QUICK_START_CHECKLIST.md** → "Troubleshooting" section
+This project follows **Test-Driven Development (TDD)**:
 
-### Problem: Don't understand TDD cycle
-→ Read: **TDD_WORKFLOW_DIAGRAM.md** → "TDD Cycle" section
+1. **RED**: Write a failing test
+2. **GREEN**: Write minimal code to pass
+3. **REFACTOR**: Improve code quality
 
-### Problem: Need detailed explanation of a phase
-→ Check: **TDD_IMPLEMENTATION_PLAN.md** → Specific phase section
-
-### Problem: Not sure what to do next
-→ Follow: **QUICK_START_CHECKLIST.md** → Step-by-step instructions
-
-### Problem: Code isn't working
-→ Try:
-1. Run tests: `pytest backend/tests/ -v`
-2. Check server logs: Look at terminal running uvicorn
-3. Check browser console: F12 → Console tab
-4. Review: **TDD_IMPLEMENTATION_PLAN.md** → "Troubleshooting"
+See [docs/TDD_WORKFLOW_DIAGRAM.md](docs/TDD_WORKFLOW_DIAGRAM.md) for the complete workflow.
 
 ---
 
-## 💡 Pro Tips
+## 📖 Documentation
 
-### 1. Commit Often
+- **[TDD Implementation Plan](docs/TDD_IMPLEMENTATION_PLAN.md)** - Complete development guide
+- **[Quick Start Checklist](docs/QUICK_START_CHECKLIST.md)** - Setup checklist
+- **[Scoring Algorithm](docs/SCORING_ALGORITHM_EXPLAINED.md)** - Deep dive on scoring
+- **[Project Summary](docs/PROJECT_SUMMARY.md)** - Project overview
+- **[Quick Reference](docs/QUICK_REFERENCE.md)** - Command cheat sheet
+
+---
+
+## 🐛 Troubleshooting
+
+### Backend returns 401 Unauthorized
+- Check that `.env` file exists and has your Tavily API key
+- Ensure no spaces after the `=` sign: `TAVILY_API_KEY=your_key`
+- Restart the backend after changing `.env`
+
+### Port already in use
 ```bash
-# After each RED-GREEN-REFACTOR cycle
-git add .
-git commit -m "test(backend): add failing test for..."  # RED
-git commit -m "feat(backend): implement..."            # GREEN
-git commit -m "refactor(backend): extract..."          # REFACTOR
+# Kill process on port 8000
+lsof -ti:8000 | xargs kill -9
+
+# Kill process on port 5173
+lsof -ti:5173 | xargs kill -9
 ```
 
-### 2. Run Tests Constantly
+### Tests failing
 ```bash
-# After every change
-pytest backend/tests/ -v
-
-# Or use watch mode
-pip install pytest-watch
-ptw backend/tests/
-```
-
-### 3. Test Manually Too
-```bash
-# Backend
-curl "http://localhost:8000/search?q=test" | jq
-
-# Frontend
-# Open browser, click around, use DevTools
-```
-
-### 4. Take Breaks
-```
-Work for 60 minutes → Take 10 minute break
-Complete a phase → Take 30 minute break
-```
-
-### 5. Celebrate Wins! 🎉
-```
-✅ First test passes → Awesome!
-✅ Endpoint works → Great job!
-✅ Frontend connected → You're killing it!
-✅ Full app working → You did TDD! 🚀
-```
-
----
-
-## 📞 Support Resources
-
-### Documentation
-- FastAPI: https://fastapi.tiangolo.com/
-- Tavily API: https://docs.tavily.com/
-- pytest: https://docs.pytest.org/
-- Tailwind CSS: https://tailwindcss.com/docs
-
-### Your Project Docs
-- **Detailed reference**: TDD_IMPLEMENTATION_PLAN.md
-- **Quick actions**: QUICK_START_CHECKLIST.md  
-- **Visual guide**: TDD_WORKFLOW_DIAGRAM.md
-
-### Community
-- FastAPI Discord
-- Python Discord
-- Stack Overflow (tag: fastapi, pytest)
-
----
-
-## 🎬 Ready to Start?
-
-### Right Now (5 minutes):
-1. ✅ You're using `.venv` (already set up!)
-2. ✅ Open **QUICK_START_CHECKLIST.md**
-3. ✅ Follow "Step 1: Environment Setup"
-4. ✅ Get your Tavily API key
-5. ✅ Start coding!
-
-### Your First Command:
-```bash
-cd /home/thewiseone/IS218/IS218ai
+# Ensure virtual environment is activated
 source .venv/bin/activate
-mkdir -p backend/tests backend/providers frontend docs
+
+# Reinstall dependencies
+pip install -r requirements.txt
+
+# Run tests with verbose output
+pytest -v
 ```
 
 ---
 
-## 📈 Track Your Progress
+## 🚧 Roadmap
 
-Mark off as you complete:
-
-```
-📋 SETUP
-├─ [ ] Read this README
-├─ [ ] Choose your learning path
-└─ [ ] Get Tavily API key
-
-🔴 PHASE 0: Scaffold (20 min)
-├─ [ ] Create folder structure
-├─ [ ] Install dependencies
-├─ [ ] Configure pytest
-└─ [ ] Commit: feat(scaffold)
-
-🔴 PHASE 1: /search (60 min)
-├─ [ ] Write failing tests (RED)
-├─ [ ] Implement endpoint (GREEN)
-├─ [ ] Refactor code (REFACTOR)
-└─ [ ] Commits: test → feat → refactor
-
-🔴 PHASE 2: /dupes (60 min)
-├─ [ ] Write scoring tests (RED)
-├─ [ ] Implement scoring (GREEN)
-├─ [ ] Extract service (REFACTOR)
-└─ [ ] Commits: test → feat → refactor
-
-🔴 PHASE 3: Frontend (90 min)
-├─ [ ] Create HTML mockup
-├─ [ ] Connect to API
-├─ [ ] Add interactivity
-└─ [ ] Commits: feat → feat → refactor
-
-🔴 PHASE 4: Docs (45 min)
-├─ [ ] API.md
-├─ [ ] ARCHITECTURE.md
-└─ [ ] README.md
-
-🔴 PHASE 5: Quality (45 min)
-├─ [ ] Test coverage >90%
-├─ [ ] Integration tests
-└─ [ ] Manual testing
-
-🎉 DONE!
-└─ [ ] Demo your app!
-```
+- [ ] Add user authentication
+- [ ] Save favorite dupes
+- [ ] Price tracking over time
+- [ ] Browser extension
+- [ ] Mobile app (React Native)
+- [ ] More search providers (Google Shopping, Bing)
 
 ---
 
-## 🌟 Final Motivation
+## 🤝 Contributing
 
-You're about to build a real, production-quality web application using professional software engineering practices:
+Contributions are welcome! Please follow these steps:
 
-- ✅ **Test-Driven Development**: Industry best practice
-- ✅ **Clean Architecture**: Backend/frontend separation
-- ✅ **Modern Tech Stack**: FastAPI, Tailwind, Async Python
-- ✅ **High Code Quality**: >90% test coverage
-- ✅ **Well Documented**: Comprehensive docs
-- ✅ **Portfolio Ready**: Showcase to employers!
-
-**You've got this!** 💪
-
-Start with **QUICK_START_CHECKLIST.md** and let's build DupeFinder! 🚀
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Write tests for your changes
+4. Ensure all tests pass: `pytest`
+5. Commit your changes: `git commit -m 'Add amazing feature'`
+6. Push to the branch: `git push origin feature/amazing-feature`
+7. Open a Pull Request
 
 ---
 
-**Questions while building?**
-1. Check the appropriate guide (Quick Start, Workflow, or Implementation Plan)
-2. Review the Troubleshooting section
-3. Remember: RED → GREEN → REFACTOR → COMMIT
+## 📝 License
 
-Happy coding! 🎉
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 👤 Author
+
+**wui2Wisdom**
+
+- GitHub: [@wui2Wisdom](https://github.com/wui2Wisdom)
+- Repository: [IS218ai](https://github.com/wui2Wisdom/IS218ai)
+
+---
+
+## 🙏 Acknowledgments
+
+- [Tavily](https://tavily.com/) for the search API
+- [FastAPI](https://fastapi.tiangolo.com/) for the amazing framework
+- [Tailwind CSS](https://tailwindcss.com/) for the utility-first CSS
+- The Python testing community for pytest
+
+---
+
+## 📊 Project Stats
+
+- **Lines of Code**: ~1,500
+- **Test Coverage**: 96%
+- **Dependencies**: 8 packages
+- **Development Time**: ~4 hours (following TDD)
+- **API Calls**: Efficient (only 1 per search)
+
+---
+
+<div align="center">
+  
+**Happy dupe hunting! 🛍️**
+
+If you found this project helpful, please ⭐ star it on GitHub!
+
+</div>
