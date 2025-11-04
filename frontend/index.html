@@ -6,111 +6,776 @@
     <title>DupeFinder - Find Affordable Dupes</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        body {
+            background: #ffffff;
+            min-height: 100vh;
+        }
+        
+        /* Smooth animations */
+        * {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Fade in animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Slide in from left */
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        /* Scale in */
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        /* Gradient shift animation */
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Glass morphism effect - Enhanced */
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+        }
+        
+        /* Bold header style inspired by Lando's site */
+        .hero-text {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            line-height: 0.95;
+            color: #000000;
+        }
+        
+        /* Gradient text - More subtle with animation */
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #667eea 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 8s ease infinite;
+        }
+        
+        /* Accent color for highlights */
+        .accent-lime {
+            color: #86efac;
+        }
+        
+        .accent-bg-lime {
+            background-color: #86efac;
+        }
+        
+        /* Card hover effects - More pronounced with smooth animation */
+        .product-card {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            background: white;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.15);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Image hover effect - Enhanced */
+        .product-image {
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .product-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .product-card:hover .product-image::after {
+            opacity: 1;
+        }
+        
+        .product-image img {
+            transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        .product-card:hover .product-image img {
+            transform: scale(1.08) rotate(1deg);
+        }
+        
+        /* Shimmer loading effect */
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+        
+        .shimmer {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 1000px 100%;
+            animation: shimmer 2s infinite;
+        }
+        
+        /* Floating animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        .float-animation {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        /* Gentle rotate */
+        @keyframes gentleRotate {
+            0%, 100% { transform: rotate(-2deg); }
+            50% { transform: rotate(2deg); }
+        }
+        
+        /* Stagger animation for grid items */
+        .stagger-fade-in {
+            animation: fadeInUp 0.6s ease-out backwards;
+        }
+        
+        .stagger-fade-in:nth-child(1) { animation-delay: 0.05s; }
+        .stagger-fade-in:nth-child(2) { animation-delay: 0.1s; }
+        .stagger-fade-in:nth-child(3) { animation-delay: 0.15s; }
+        .stagger-fade-in:nth-child(4) { animation-delay: 0.2s; }
+        .stagger-fade-in:nth-child(5) { animation-delay: 0.25s; }
+        .stagger-fade-in:nth-child(6) { animation-delay: 0.3s; }
+        .stagger-fade-in:nth-child(7) { animation-delay: 0.35s; }
+        .stagger-fade-in:nth-child(8) { animation-delay: 0.4s; }
+        .stagger-fade-in:nth-child(9) { animation-delay: 0.45s; }
+        .stagger-fade-in:nth-child(10) { animation-delay: 0.5s; }
+        .stagger-fade-in:nth-child(11) { animation-delay: 0.55s; }
+        .stagger-fade-in:nth-child(12) { animation-delay: 0.6s; }
+        .stagger-fade-in:nth-child(13) { animation-delay: 0.65s; }
+        .stagger-fade-in:nth-child(14) { animation-delay: 0.7s; }
+        .stagger-fade-in:nth-child(15) { animation-delay: 0.75s; }
+        .stagger-fade-in:nth-child(16) { animation-delay: 0.8s; }
+        
+        /* Pulse animation for badges */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+        
+        .pulse-badge {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        /* Gradient button - Sleeker with better animation */
+        .gradient-btn {
+            background: #000000;
+            position: relative;
+            overflow: hidden;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        .gradient-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.7s ease;
+        }
+        
+        .gradient-btn:hover {
+            background: #1a1a1a;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .gradient-btn:active {
+            transform: translateY(0);
+        }
+        
+        .gradient-btn:hover::before {
+            left: 100%;
+        }
+        
+        /* Secondary button style */
+        .btn-secondary {
+            background: white;
+            color: #000000;
+            border: 2px solid #000000;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+        }
+        
+        .btn-secondary:hover {
+            background: #000000;
+            color: white;
+        }
+        
+        /* Modal animations */
         .modal {
             display: none;
+            animation: fadeIn 0.3s ease-out;
         }
+        
         .modal.active {
             display: flex;
         }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .modal.active > div {
+            animation: slideUp 0.4s ease-out;
+        }
+        
+        /* Dropdown */
+        .dropdown {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: white;
+            z-index: 50;
+            overflow-y: auto;
+            transform: translateX(100%);
+        }
+        
+        .dropdown.show {
+            display: block !important;
+            animation: slideInRight 0.3s ease-out forwards;
+        }
+        
+        @keyframes slideInRight {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 40;
+            display: none;
+            opacity: 0;
+        }
+        
+        .overlay.show {
+            display: block !important;
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+        
+        .page {
+            display: none;
+            padding-bottom: 80px;
+        }
+        
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .raccoon-logo {
+            display: inline-block;
+            font-size: 2rem;
+            line-height: 1;
+            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+        }
+        
+        /* Score badge gradient */
+        .score-badge {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        /* Category pills - Cleaner design with animation */
+        .category-pill {
+            background: white;
+            border: 1.5px solid #e5e7eb;
+            background-clip: padding-box;
+            position: relative;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        .category-pill:hover {
+            border-color: #000000;
+            background: #000000;
+            color: white;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .category-pill:active {
+            transform: translateY(-1px) scale(1.02);
+        }
+        
+        /* Search input focus effect - More subtle */
+        .search-input {
+            transition: all 0.3s ease;
+            font-weight: 400;
+        }
+        
+        .search-input:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        }
+        
+        /* Minimalist header */
+        .minimal-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        }
+        
+        /* Hero section with large text and animation */
+        .hero-section {
+            background: linear-gradient(180deg, #f9fafb 0%, #ffffff 100%);
+            position: relative;
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1), transparent);
+        }
+        
+        /* Animated underline */
+        .animated-underline {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .animated-underline::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        .animated-underline:hover::after {
+            width: 100%;
+        }
     </style>
 </head>
-<body class="bg-gray-900 text-white min-h-screen">
-    <!-- Header -->
-    <header class="bg-gradient-to-r from-indigo-600 to-purple-600 py-6 px-4 shadow-lg">
-        <div class="max-w-6xl mx-auto">
-            <h1 class="text-3xl md:text-4xl font-bold text-center">💎 DupeFinder</h1>
-            <p class="text-center text-indigo-100 mt-2">Find affordable alternatives to luxury items</p>
+<body class="bg-white text-gray-900 min-h-screen">
+    <!-- Header - Minimalist Design -->
+    <header class="minimal-header sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-6 py-5">
+            <div class="flex items-center justify-between">
+                <!-- Left spacer -->
+                <div class="w-10"></div>
+                
+                <!-- Logo - Bold and Simple -->
+                <div class="flex items-center gap-3">
+                    <div class="relative">
+                        <img src="raccoon-logo.webp" alt="Raccoon Logo" class="w-10 h-10 object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                        <span class="raccoon-logo" style="display:none; font-size: 1.5rem;">🦝</span>
+                    </div>
+                    <h1 class="text-xl font-black tracking-tight text-black uppercase">DupeFinder</h1>
+                </div>
+                
+                <!-- Menu Icon -->
+                <button onclick="toggleDropdown()" class="p-2 hover:bg-gray-100 rounded-lg transition-all">
+                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
         </div>
     </header>
 
-    <!-- Search Section -->
-    <section class="max-w-6xl mx-auto px-4 py-8">
-        <div class="bg-gray-800 rounded-lg p-6 shadow-xl">
-            <div class="flex flex-col md:flex-row gap-4">
-                <!-- Search Input -->
-                <div class="flex-1">
-                    <label for="searchInput" class="block text-sm font-medium text-gray-300 mb-2">
-                        Search for luxury items
-                    </label>
-                    <input 
-                        type="text" 
-                        id="searchInput" 
-                        placeholder="e.g., quilted chain bag, aviator sunglasses..." 
-                        class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    />
+    <!-- Overlay for dropdown -->
+    <div id="overlay" class="overlay" onclick="closeDropdown()"></div>
+    
+    <!-- Dropdown Menu -->
+    <div id="dropdownMenu" class="dropdown">
+        <div class="bg-gray-50 min-h-screen">
+            <!-- Category list with arrows -->
+            <button onclick="searchCategory('new arrivals trending')" class="w-full text-left px-6 py-5 bg-white border-b border-gray-200 hover:bg-gray-50 flex items-center justify-between">
+                <span class="text-base font-normal">New</span>
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </button>
+            
+            <button onclick="searchCategory('women dresses tops shoes handbags')" class="w-full text-left px-6 py-5 bg-white border-b border-gray-200 hover:bg-gray-50 flex items-center justify-between">
+                <span class="text-base font-normal">Women</span>
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </button>
+            
+            <button onclick="searchCategory('men shirts pants jackets sneakers')" class="w-full text-left px-6 py-5 bg-white border-b border-gray-200 hover:bg-gray-50 flex items-center justify-between">
+                <span class="text-base font-normal">Men</span>
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </button>
+            
+            <button onclick="searchCategory('jeans denim pants')" class="w-full text-left px-6 py-5 bg-white border-b border-gray-200 hover:bg-gray-50 flex items-center justify-between">
+                <span class="text-base font-normal">Jeans</span>
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </button>
+            
+            <button onclick="searchCategory('swimwear bikini swim')" class="w-full text-left px-6 py-5 bg-white border-b border-gray-200 hover:bg-gray-50 flex items-center justify-between">
+                <span class="text-base font-normal">Swim</span>
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </button>
+            
+            <button onclick="searchCategory('activewear fitness athletic')" class="w-full text-left px-6 py-5 bg-white border-b border-gray-200 hover:bg-gray-50 flex items-center justify-between">
+                <span class="text-base font-normal">Active</span>
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </button>
+            
+            <button onclick="searchCategory('kids children clothing')" class="w-full text-left px-6 py-5 bg-white border-b border-gray-200 hover:bg-gray-50 flex items-center justify-between">
+                <span class="text-base font-normal">Kids</span>
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </button>
+            
+            <button onclick="closeDropdown()" class="w-full text-left px-6 py-5 bg-white border-b border-gray-200 hover:bg-gray-50">
+                <span class="text-base font-normal">John Galt</span>
+            </button>
+            
+            <button onclick="searchCategory('designer brands luxury')" class="w-full text-left px-6 py-5 bg-white border-b border-gray-200 hover:bg-gray-50 flex items-center justify-between">
+                <span class="text-base font-normal">Brands</span>
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </button>
+            
+            <button onclick="searchCategory('sale discount clearance')" class="w-full text-left px-6 py-5 bg-white border-b border-gray-200 hover:bg-gray-50 flex items-center justify-between">
+                <span class="text-base font-normal">Sale</span>
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </button>
+            
+            <!-- Bottom links -->
+            <div class="mt-12 px-6 space-y-4 pb-24">
+                <button onclick="searchCategory('favorites trending')" class="block w-full text-right text-base text-gray-700 hover:text-gray-900 py-2">My Likes</button>
+                <button onclick="closeDropdown()" class="block w-full text-right text-base text-gray-700 hover:text-gray-900 py-2">Pacsun Rewards</button>
+                <button onclick="closeDropdown()" class="block w-full text-right text-base text-gray-700 hover:text-gray-900 py-2">Store Locator</button>
+                <button onclick="closeDropdown()" class="block w-full text-right text-base text-gray-700 hover:text-gray-900 py-2">Track My Order</button>
+                <button onclick="closeDropdown()" class="block w-full text-right text-base text-gray-700 hover:text-gray-900 py-2">Refer a Friend</button>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Main Content Pages -->
+    <div id="pages">
+        <!-- Home Page -->
+        <div id="homePage" class="page active">
+            <!-- Hero Search Section -->
+            <section class="hero-section px-6 py-16 md:py-24">
+                <div class="max-w-4xl mx-auto text-center">
+                    <h2 class="hero-text mb-6" style="animation: fadeInUp 0.8s ease-out;">
+                        FIND YOUR
+                        <br>
+                        <span class="gradient-text animated-underline">PERFECT DUPE</span>
+                    </h2>
+                    <p class="text-lg md:text-xl text-gray-600 mb-10 font-light tracking-wide" style="animation: fadeInUp 1s ease-out;">
+                        Discover affordable alternatives to designer fashion & clothing
+                    </p>
+                    <div class="flex gap-3 glass p-3 rounded-2xl shadow-2xl max-w-2xl mx-auto" style="animation: fadeInUp 1.2s ease-out;">
+                        <input 
+                            type="text" 
+                            id="searchInput" 
+                            placeholder="Search designer clothing, bags, shoes..." 
+                            class="search-input flex-1 px-6 py-4 bg-transparent text-gray-900 placeholder-gray-400 focus:outline-none text-base"
+                        />
+                        <button 
+                            id="searchBtn"
+                            class="gradient-btn text-white px-10 py-4 rounded-xl font-semibold flex items-center gap-2 whitespace-nowrap"
+                        >
+                            SEARCH
+                        </button>
+                    </div>
+                    
+                    <!-- Floating icons decoration -->
+                    <div class="mt-12 flex justify-center gap-8 text-4xl opacity-30">
+                        <div class="float-animation" style="animation-delay: 0s;">👜</div>
+                        <div class="float-animation" style="animation-delay: 0.5s;">👟</div>
+                        <div class="float-animation" style="animation-delay: 1s;">🕶️</div>
+                        <div class="float-animation" style="animation-delay: 1.5s;">💎</div>
+                    </div>
                 </div>
-                
-                <!-- Sort Dropdown -->
-                <div class="md:w-48">
-                    <label for="sort" class="block text-sm font-medium text-gray-300 mb-2">
-                        Sort by
-                    </label>
+            </section>
+
+            <!-- Horizontal Category Tabs - Cleaner -->
+            <section class="border-y border-gray-200 overflow-x-auto bg-white">
+                <div class="max-w-7xl mx-auto px-6">
+                    <div class="flex gap-2 whitespace-nowrap py-5">
+                        <button onclick="quickSearch('handbags purses')" class="category-pill px-5 py-2 rounded-full text-sm">
+                            Bags
+                        </button>
+                        <button onclick="quickSearch('shoes sneakers')" class="category-pill px-5 py-2 rounded-full text-sm">
+                            Shoes
+                        </button>
+                        <button onclick="quickSearch('sunglasses')" class="category-pill px-5 py-2 rounded-full text-sm">
+                            Sunglasses
+                        </button>
+                        <button onclick="quickSearch('jewelry watches')" class="category-pill px-5 py-2 rounded-full text-sm">
+                            Jewelry
+                        </button>
+                        <button onclick="quickSearch('dresses')" class="category-pill px-5 py-2 rounded-full text-sm">
+                            Dresses
+                        </button>
+                        <button onclick="quickSearch('jackets coats')" class="category-pill px-5 py-2 rounded-full text-sm">
+                            Outerwear
+                        </button>
+                        <button onclick="quickSearch('perfume cologne')" class="category-pill px-5 py-2 rounded-full text-sm">
+                            Fragrance
+                        </button>
+                        <button onclick="quickSearch('makeup beauty')" class="category-pill px-5 py-2 rounded-full text-sm">
+                            Beauty
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Loading State - Minimalist -->
+            <div id="loadingState" class="hidden max-w-7xl mx-auto px-6 py-24 text-center">
+                <div class="inline-block">
+                    <div class="flex flex-col items-center gap-6">
+                        <div class="relative">
+                            <div class="w-16 h-16 border-3 border-gray-200 border-t-black rounded-full animate-spin"></div>
+                        </div>
+                        <p class="text-lg font-semibold text-black uppercase tracking-wide">Finding Affordable Clothing</p>
+                        <p class="text-sm text-gray-600">Searching for the best fashion dupes...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error State -->
+            <div id="errorState" class="hidden max-w-7xl mx-auto px-6 py-8">
+                <div class="bg-red-50 border border-red-200 rounded-xl p-8 text-center">
+                    <div class="text-4xl mb-4">⚠️</div>
+                    <p class="text-lg font-semibold text-red-900 mb-2" id="errorMessage">Something went wrong</p>
+                    <p class="text-red-700">Please try again</p>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <section class="max-w-7xl mx-auto px-6 py-8 pb-24">
+                <!-- Sort Controls - Clean and minimal -->
+                <div id="sortControls" class="hidden mb-6 flex items-center justify-between">
+                    <div id="resultsCount" class="text-sm text-gray-600 font-medium uppercase tracking-wider">
+                        <span id="countText"></span>
+                    </div>
                     <select 
                         id="sort" 
-                        class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        class="px-4 py-2 border border-gray-300 rounded-lg text-sm text-black font-medium focus:outline-none focus:border-black bg-white"
                     >
                         <option value="popular">Best Match</option>
                         <option value="price_asc">Price: Low to High</option>
                         <option value="price_desc">Price: High to Low</option>
-                        <option value="newest">Newest First</option>
                     </select>
                 </div>
-            </div>
-
-            <!-- Search Button -->
-            <button 
-                id="searchBtn" 
-                class="mt-4 w-full md:w-auto px-8 py-3 bg-indigo-600 hover:bg-indigo-700 rounded-lg font-semibold transition-colors duration-200"
-            >
-                🔍 Find Dupes
-            </button>
+                
+                <div id="productGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                    <!-- Initial welcome message - Bold and minimal -->
+                    <div class="col-span-full text-center py-20">
+                        <div class="max-w-3xl mx-auto">
+                            <h2 class="hero-text mb-6">
+                                DISCOVER
+                                <br>
+                                <span class="gradient-text">AFFORDABLE</span>
+                                <br>
+                                STYLE
+                            </h2>
+                            <p class="text-lg text-gray-600 mb-10 font-light max-w-xl mx-auto">
+                                Search for designer clothing, bags, shoes & accessories to discover budget-friendly alternatives from trusted fashion retailers
+                            </p>
+                            <button onclick="quickSearch('designer dress')" class="gradient-btn text-white px-10 py-4 rounded-xl font-semibold inline-flex items-center gap-2">
+                                START SHOPPING
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
-    </section>
 
-    <!-- Loading State -->
-    <div id="loadingState" class="hidden max-w-6xl mx-auto px-4 py-8 text-center">
-        <div class="animate-pulse">
-            <div class="text-4xl mb-4">🔄</div>
-            <p class="text-xl text-gray-400">Searching for the best dupes...</p>
-        </div>
-    </div>
-
-    <!-- Error State -->
-    <div id="errorState" class="hidden max-w-6xl mx-auto px-4 py-8">
-        <div class="bg-red-900/30 border border-red-700 rounded-lg p-6 text-center">
-            <p class="text-xl text-red-400" id="errorMessage">Something went wrong. Please try again.</p>
-        </div>
-    </div>
-
-    <!-- Results Grid -->
-    <section class="max-w-6xl mx-auto px-4 py-8">
-        <div id="resultsCount" class="text-gray-400 mb-4 hidden">
-            <span id="countText"></span>
-        </div>
-        
-        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <!-- Initial guidance -->
-            <div class="col-span-full text-center py-12">
-                <div class="text-6xl mb-4">🔎</div>
-                <h3 class="text-2xl font-semibold mb-2">Start Searching</h3>
-                <p class="text-gray-400 mb-4">Try searching for:</p>
-                <div class="flex flex-wrap gap-2 justify-center">
-                    <span class="px-3 py-1 bg-gray-800 rounded-full text-sm cursor-pointer hover:bg-gray-700 transition-colors" onclick="quickSearch('quilted chain bag')">quilted chain bag</span>
-                    <span class="px-3 py-1 bg-gray-800 rounded-full text-sm cursor-pointer hover:bg-gray-700 transition-colors" onclick="quickSearch('aviator sunglasses')">aviator sunglasses</span>
-                    <span class="px-3 py-1 bg-gray-800 rounded-full text-sm cursor-pointer hover:bg-gray-700 transition-colors" onclick="quickSearch('chunky sneakers')">chunky sneakers</span>
+        <!-- Likes Page -->
+        <div id="likesPage" class="page">
+            <div class="max-w-7xl mx-auto px-4 py-8">
+                <h2 class="text-2xl font-bold mb-6">My Likes</h2>
+                <div class="text-center py-12">
+                    <div class="text-6xl mb-4">❤️</div>
+                    <h3 class="text-xl font-semibold mb-2">No liked items yet</h3>
+                    <p class="text-gray-500 mb-4">Items you like will appear here</p>
+                    <button onclick="showPage('homePage')" class="bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800">
+                        Start Shopping
+                    </button>
                 </div>
             </div>
         </div>
-    </section>
+
+        <!-- Account Page -->
+        <div id="accountPage" class="page">
+            <div class="max-w-7xl mx-auto px-4 py-8">
+                <h2 class="text-2xl font-bold mb-6">My Account</h2>
+                <div class="space-y-4">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="font-semibold mb-2">Profile</h3>
+                        <p class="text-gray-600">Manage your account information</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="font-semibold mb-2">Order History</h3>
+                        <p class="text-gray-600">View your past purchases</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="font-semibold mb-2">Settings</h3>
+                        <p class="text-gray-600">Preferences and notifications</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="font-semibold mb-2">Support</h3>
+                        <p class="text-gray-600">Get help with your orders</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bag Page -->
+        <div id="bagPage" class="page">
+            <div class="max-w-7xl mx-auto px-4 py-8">
+                <h2 class="text-2xl font-bold mb-6">Shopping Bag</h2>
+                <div class="text-center py-12">
+                    <div class="text-6xl mb-4">🛍️</div>
+                    <h3 class="text-xl font-semibold mb-2">Your bag is empty</h3>
+                    <p class="text-gray-500 mb-4">Add some dupes to get started</p>
+                    <button onclick="showPage('homePage')" class="bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800">
+                        Continue Shopping
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Product Modal -->
-    <div id="productModal" class="modal fixed inset-0 bg-black bg-opacity-75 items-center justify-center z-50 p-4">
-        <div class="bg-gray-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+    <div id="productModal" class="modal fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div id="modalContent">
                 <!-- Content will be inserted here by JavaScript -->
             </div>
         </div>
     </div>
+
+    <!-- Bottom Navigation - Glass effect maintained -->
+    <footer class="fixed bottom-0 left-0 right-0 glass border-t border-gray-200 py-2 px-4 z-30">
+        <div class="max-w-7xl mx-auto flex justify-around items-center">
+            <button onclick="showPage('homePage')" id="homeNavBtn" class="flex flex-col items-center py-2 px-3 text-black transition-all">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+                <span class="text-xs mt-1 font-medium">Home</span>
+            </button>
+            <button onclick="showPage('likesPage')" id="likesNavBtn" class="flex flex-col items-center py-2 px-3 text-gray-400 transition-all hover:text-black">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                </svg>
+                <span class="text-xs mt-1 font-medium">Likes</span>
+            </button>
+            <button class="flex flex-col items-center py-2 px-3 text-gray-400 transition-all hover:text-black">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                </svg>
+                <span class="text-xs mt-1 font-medium">Rewards</span>
+            </button>
+            <button onclick="showPage('accountPage')" id="accountNavBtn" class="flex flex-col items-center py-2 px-3 text-gray-400 transition-all hover:text-black">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                </svg>
+                <span class="text-xs mt-1 font-medium">Account</span>
+            </button>
+            <button onclick="showPage('bagPage')" id="bagNavBtn" class="flex flex-col items-center py-2 px-3 text-gray-400 transition-all hover:text-black">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                </svg>
+                <span class="text-xs mt-1">Bag</span>
+            </button>
+        </div>
+    </footer>
 
     <script>
         // State
@@ -121,6 +786,7 @@
         const searchInput = document.getElementById('searchInput');
         const searchBtn = document.getElementById('searchBtn');
         const sortSelect = document.getElementById('sort');
+        const sortControls = document.getElementById('sortControls');
         const productGrid = document.getElementById('productGrid');
         const productModal = document.getElementById('productModal');
         const modalContent = document.getElementById('modalContent');
@@ -137,7 +803,8 @@
         async function fetchDupes(query) {
             if (!query || query.trim().length < 2) return [];
             
-            const url = `${API_BASE}/dupes?q=${encodeURIComponent(query)}&max_results=12`;
+            // Request MORE results (24 instead of 16)
+            const url = `${API_BASE}/dupes?q=${encodeURIComponent(query)}&max_results=24`;
             const resp = await fetch(url);
             
             if (!resp.ok) {
@@ -149,7 +816,7 @@
                 id: idx + 1,
                 name: it.title,
                 price: it.price ?? null,
-                image: `https://placehold.co/400x500/1F2937/FFFFFF?text=${encodeURIComponent('DupeFinder')}`,
+                image: it.image || `https://placehold.co/400x500/f3f4f6/9ca3af?text=No+Image`,
                 url: it.url,
                 snippet: it.snippet,
                 site: it.site,
@@ -162,41 +829,50 @@
         function renderProducts(list) {
             if (list.length === 0) {
                 productGrid.innerHTML = `
-                    <div class="col-span-full text-center py-12">
-                        <div class="text-6xl mb-4">😕</div>
-                        <h3 class="text-2xl font-semibold mb-2">No dupes found</h3>
-                        <p class="text-gray-400">Try a different search term</p>
+                    <div class="col-span-full text-center py-16">
+                        <div class="p-12 rounded-xl inline-block">
+                            <div class="text-5xl mb-4 float-animation">🔍</div>
+                            <p class="text-xl font-bold text-black mb-2 uppercase tracking-wide">No items found</p>
+                            <p class="text-gray-600">Try a different search</p>
+                        </div>
                     </div>
                 `;
-                resultsCount.classList.add('hidden');
+                sortControls.classList.add('hidden');
                 return;
             }
 
-            resultsCount.classList.remove('hidden');
-            countText.textContent = `Found ${list.length} dupe${list.length !== 1 ? 's' : ''}`;
+            sortControls.classList.remove('hidden');
+            countText.textContent = `${list.length} Items`;
 
             productGrid.innerHTML = '';
-            list.forEach(p => {
+            list.forEach((p, idx) => {
                 const priceText = p.price ? `$${p.price.toFixed(2)}` : 'See site';
-                const scoreColor = p.dupeScore >= 60 ? 'text-green-400' : p.dupeScore >= 55 ? 'text-yellow-400' : 'text-gray-400';
+                
+                // Check if reason contains savings percentage
+                const hasSavings = p.reason && p.reason.includes('%');
+                const savingsBadge = hasSavings ? `
+                    <div class="absolute top-2 left-2 bg-black text-white text-xs font-bold px-3 py-1 rounded-md uppercase tracking-wide animate-pulse">
+                        ${p.reason.match(/\d+%/)?.[0] || 'DEAL'}
+                    </div>
+                ` : '';
                 
                 const card = document.createElement('div');
-                card.className = 'bg-gray-800 rounded-lg overflow-hidden cursor-pointer transform hover:scale-105 transition-transform duration-200 shadow-lg hover:shadow-xl';
+                // Add stagger animation class
+                card.className = 'product-card rounded-xl overflow-hidden cursor-pointer group stagger-fade-in';
                 card.innerHTML = `
-                    <div class="relative">
-                        <img src="${p.image}" alt="${p.name}" class="w-full h-64 object-cover">
-                        <div class="absolute top-2 right-2 bg-gray-900 bg-opacity-90 px-2 py-1 rounded-full">
-                            <span class="${scoreColor} text-xs font-bold">★ ${p.dupeScore}</span>
+                    <div class="product-image relative bg-gray-100">
+                        <img src="${p.image}" alt="${p.name}" class="w-full aspect-[3/4] object-cover" loading="lazy">
+                        ${savingsBadge}
+                        <div class="absolute top-2 right-2 bg-white text-black text-xs font-bold px-3 py-1 rounded-md uppercase tracking-wide shadow-sm">
+                            ${p.dupeScore}★
                         </div>
                     </div>
-                    <div class="p-4">
-                        <h4 class="font-semibold text-sm mb-2 line-clamp-2 h-10">${p.name}</h4>
-                        <div class="flex items-center justify-between">
-                            <p class="text-indigo-400 font-bold">${priceText}</p>
-                            ${p.site ? `<span class="text-xs text-gray-400 truncate ml-2">${p.site.replace('www.', '')}</span>` : ''}
-                        </div>
-                        <div class="mt-2 text-xs text-gray-500 italic line-clamp-1">
-                            ${p.reason}
+                    <div class="p-4 space-y-2 bg-white">
+                        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">${p.site ? p.site.replace('www.', '').split('.')[0] : 'Retailer'}</p>
+                        <h4 class="text-sm font-semibold text-black line-clamp-2 leading-snug min-h-[2.5rem]">${p.name}</h4>
+                        <div class="flex items-baseline justify-between pt-1">
+                            <p class="text-lg font-bold text-black">${priceText}</p>
+                            ${hasSavings ? '<span class="text-xs text-green-700 font-bold">SAVE</span>' : ''}
                         </div>
                     </div>
                 `;
@@ -205,54 +881,93 @@
             });
         }
 
+        // Clean and shorten product descriptions
+        function cleanDescription(snippet, title) {
+            if (!snippet) return 'Great affordable alternative';
+            
+            // Remove common clutter
+            let cleaned = snippet
+                .replace(/\d+\s*Products?\s*Available/gi, '')
+                .replace(/\$\d+(\.\d{2})?\s*-\s*\$\d+/g, '')
+                .replace(/Kit Price.*?\)/g, '')
+                .replace(/##\s*/g, '')
+                .replace(/\*+/g, '')
+                .replace(/Shopping Preference/gi, '')
+                .replace(/\(\$\d+\s*value\)/gi, '')
+                .trim();
+            
+            // Remove price ranges and scoring details
+            cleaned = cleaned
+                .replace(/Score\s*\d+/gi, '')
+                .replace(/\d+\s*\*/g, '')
+                .replace(/\s{2,}/g, ' ');
+            
+            // Get first meaningful sentence
+            const sentences = cleaned.split(/[.!?]/);
+            let result = sentences[0] || cleaned;
+            
+            // Limit to 100 characters
+            if (result.length > 100) {
+                result = result.substring(0, 97) + '...';
+            }
+            
+            // If still empty or too short, use generic description
+            if (result.length < 10) {
+                return 'Affordable alternative to designer brands';
+            }
+            
+            return result;
+        }
+
         // Open product modal
         function openModal(id) {
             const p = filtered.find(x => x.id === id);
             if (!p) return;
 
             const priceDisplay = p.price ? `$${p.price.toFixed(2)}` : 'See site for pricing';
-            const scoreColor = p.dupeScore >= 60 ? 'text-green-400' : p.dupeScore >= 55 ? 'text-yellow-400' : 'text-gray-400';
+            const cleanSnippet = cleanDescription(p.snippet, p.name);
 
             modalContent.innerHTML = `
                 <div class="relative">
-                    <button id="closeModal" class="absolute top-4 right-4 bg-gray-900 bg-opacity-75 rounded-full p-2 text-white hover:bg-opacity-100 z-10">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    <button id="closeModal" class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-2.5 shadow-lg hover:bg-white z-10 transition-all">
+                        <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
                     </button>
-                    <img src="${p.image.replace('400x500', '800x600')}" alt="${p.name}" class="w-full h-80 object-cover rounded-t-lg">
+                    <img src="${p.image.replace('400x500', '600x750')}" alt="${p.name}" class="w-full h-96 object-cover">
                 </div>
                 <div class="p-6">
-                    <div class="flex items-start justify-between mb-4">
-                        <h2 class="text-2xl font-bold flex-1">${p.name}</h2>
-                        <div class="ml-4 text-right">
-                            <div class="${scoreColor} text-3xl font-bold">★ ${p.dupeScore}</div>
-                            <div class="text-xs text-gray-400 mt-1">Dupe Score</div>
+                    <div class="mb-6">
+                        <p class="text-xs text-gray-500 uppercase tracking-widest mb-3 font-semibold">${p.site || 'Retailer'}</p>
+                        <h2 class="text-2xl md:text-3xl font-bold mb-4 text-black leading-tight">${p.name}</h2>
+                        <div class="flex items-center gap-4 flex-wrap">
+                            <p class="text-3xl font-black text-black">${priceDisplay}</p>
+                            <div class="bg-gray-100 px-4 py-2 rounded-lg">
+                                <span class="text-sm font-bold text-black uppercase tracking-wide">${p.dupeScore}★ Score</span>
+                            </div>
                         </div>
                     </div>
                     
-                    ${p.site ? `<p class="text-gray-400 text-sm mb-2">From: <span class="text-indigo-400">${p.site}</span></p>` : ''}
+                    <p class="text-gray-700 mb-6 leading-relaxed text-base">${cleanSnippet || 'Affordable designer alternative with great quality and style.'}</p>
                     
-                    <p class="text-3xl font-bold text-indigo-400 mb-4">${priceDisplay}</p>
-                    
-                    <p class="text-gray-300 mb-6 leading-relaxed">${p.snippet || 'No description available.'}</p>
-                    
-                    <div class="bg-gray-700 rounded-lg p-4 mb-6">
-                        <h3 class="font-semibold text-lg mb-2 flex items-center">
-                            <span class="mr-2">💡</span>
-                            Why this is a good dupe
+                    <div class="bg-gray-50 rounded-xl p-5 mb-6 border border-gray-100">
+                        <h3 class="font-bold text-base mb-3 text-black uppercase tracking-wide">
+                            Why This Is A Great Dupe
                         </h3>
-                        <p class="text-gray-300">${p.reason}</p>
-                        <div class="mt-3 text-sm text-gray-400">
-                            <p>• Score based on retailer trust and transparency</p>
-                            ${p.price ? '<p>• Price is visible and competitive</p>' : ''}
-                            ${p.dupeScore >= 60 ? '<p>• From a recognized trusted retailer</p>' : ''}
+                        <p class="text-gray-700 mb-4 text-sm leading-relaxed">${p.reason}</p>
+                        <div class="text-sm text-gray-600 space-y-2">
+                            <p class="flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 bg-black rounded-full"></span>
+                                Verified retailer
+                            </p>
+                            ${p.price ? '<p class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-black rounded-full"></span>Transparent pricing</p>' : ''}
+                            ${p.dupeScore >= 60 ? '<p class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-black rounded-full"></span>High quality match</p>' : ''}
                         </div>
                     </div>
                     
                     <a href="${p.url}" target="_blank" rel="noopener noreferrer" 
-                       class="block w-full text-center bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200">
-                        View on ${p.site ? p.site.replace('www.', '').split('.')[0] : 'Retailer Site'} →
+                       class="block w-full text-center bg-black hover:bg-gray-900 text-white font-bold py-4 px-6 rounded-xl transition-all uppercase tracking-wide text-sm">
+                        View on ${p.site ? p.site.replace('www.', '').split('.')[0] : 'site'}
                     </a>
                 </div>
             `;
@@ -277,8 +992,6 @@
                 filtered.sort((a, b) => (b.price ?? -1) - (a.price ?? -1));
             } else if (sortBy === 'popular') {
                 filtered.sort((a, b) => b.dupeScore - a.dupeScore);
-            } else if (sortBy === 'newest') {
-                filtered.reverse();
             }
 
             renderProducts(filtered);
@@ -299,7 +1012,7 @@
                 loadingState.classList.remove('hidden');
                 errorState.classList.add('hidden');
                 productGrid.innerHTML = '';
-                resultsCount.classList.add('hidden');
+                sortControls.classList.add('hidden');
 
                 // Fetch data
                 items = await fetchDupes(query);
@@ -320,6 +1033,80 @@
 
         // Quick search helper
         function quickSearch(query) {
+            showPage('homePage'); // Make sure we're on home page
+            searchInput.value = query;
+            performSearch();
+        }
+
+        // Page navigation
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Update navigation buttons
+            document.querySelectorAll('footer button').forEach(btn => {
+                btn.classList.remove('text-purple-600');
+                btn.classList.add('text-gray-400');
+            });
+            
+            // Highlight active nav button
+            if (pageId === 'homePage') {
+                document.getElementById('homeNavBtn').classList.remove('text-gray-400');
+                document.getElementById('homeNavBtn').classList.add('text-purple-600');
+            } else if (pageId === 'likesPage') {
+                document.getElementById('likesNavBtn').classList.remove('text-gray-400');
+                document.getElementById('likesNavBtn').classList.add('text-purple-600');
+            } else if (pageId === 'accountPage') {
+                document.getElementById('accountNavBtn').classList.remove('text-gray-400');
+                document.getElementById('accountNavBtn').classList.add('text-purple-600');
+            } else if (pageId === 'bagPage') {
+                document.getElementById('bagNavBtn').classList.remove('text-gray-400');
+                document.getElementById('bagNavBtn').classList.add('text-purple-600');
+            }
+            
+            // Close dropdown when navigating
+            closeDropdown();
+        }
+
+        // Dropdown menu functions
+        function openDropdown() {
+            console.log('Opening dropdown...');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            const overlay = document.getElementById('overlay');
+            dropdownMenu.classList.add('show');
+            overlay.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDropdown() {
+            console.log('Closing dropdown...');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            const overlay = document.getElementById('overlay');
+            dropdownMenu.classList.remove('show');
+            overlay.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+
+        function toggleDropdown() {
+            console.log('Toggle dropdown clicked');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            if (dropdownMenu.classList.contains('show')) {
+                closeDropdown();
+            } else {
+                openDropdown();
+            }
+        }
+
+        // Search from dropdown menu
+        function searchCategory(query) {
+            closeDropdown();
+            showPage('homePage');
+            const searchInput = document.getElementById('searchInput');
             searchInput.value = query;
             performSearch();
         }
@@ -335,7 +1122,7 @@
         });
 
         // Initial message
-        console.log('🚀 DupeFinder ready! Backend should be running at http://localhost:8000');
+        console.log('🚀 DupeFinder ready! Backend at http://localhost:8000');
     </script>
 </body>
 </html>

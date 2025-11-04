@@ -1,4 +1,4 @@
-# 🚀 DupeFinder - Quick Reference Card
+sou# 🚀 DupeFinder - Quick Reference Card
 
 **Print this or keep it open while coding!**
 

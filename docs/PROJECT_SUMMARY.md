@@ -486,4 +486,4 @@ Build a production-quality web application using professional software engineeri
 
 *Last updated: October 20, 2025*
 *Project: DupeFinder - Find affordable dupes of luxury items*
-*Author: IS218 Student*
+*Author: Wisdom Ihuoma* 

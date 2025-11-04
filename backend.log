@@ -1,0 +1,427 @@
+nohup: ignoring input
+INFO:     Will watch for changes in these directories: ['/home/thewiseone/IS218/IS218ai']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [12085] using WatchFiles
+INFO:     Started server process [12087]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+Fetching 32 initial results for query: handbag
+Failed to fetch https://www.macys.com/shop/womens/handbags-wallets-accessories/handbags?id=27686: status 403
+No suitable image found for https://www.rebag.com/
+No suitable image found for https://www.nordstrom.com/browse/women/handbags?srsltid=AfmBOor4lvDQjfQjDKG4y8zR8D24a3ODMXnx1OTa5K3xPEq-kc7cuABz
+No suitable image found for https://www.wildoakboutique.com/collections/purses-bags?srsltid=AfmBOopPEZCkCqgGwPsVZVNNWZUIdq9OZ3et2oSjkzVIP14oh-0t-qzA
+Failed to fetch https://www.bloomingdales.com/shop/handbags?id=16958: status 403
+Failed to fetch https://www.katespadeoutlet.com/shop/handbags/view-all?srsltid=AfmBOoqMXPLs6NL0pD-dtAcBq6FuAAGS5eUNe2KHIr9jJdIZk0MYzY0e: status 403
+Failed to fetch https://www.chanel.com/us/fashion/handbags/c/1x1x1/: status 403
+Failed to fetch https://www.coachoutlet.com/shop/bags/view-all: status 403
+No suitable image found for https://www.therow.com/collections/women-handbags?srsltid=AfmBOoo_qNTywFRakquT3Fa3Q5_7a3fPOvp5UwYa6KlA4DP4fcZCNkas
+Filtered down to 10 results from initial results
+After filtering, got 10 shopping results
+Price analysis: min=$None, max=$None, avg=$None
+Returning 8 final results
+INFO:     127.0.0.1:58310 - "GET /dupes?q=handbag&max_results=8 HTTP/1.1" 200 OK
+Fetching 40 initial results for query: handbags purses
+No suitable image found for https://www.nordstrom.com/browse/women/handbags
+No suitable image found for https://www.nordstromrack.com/shop/women/handbags
+Failed to fetch https://www.marshalls.com/us/store/shop/womens-handbags-purses/_/N-3758044351: status 403
+Failed to fetch https://www.macys.com/shop/handbags-accessories?id=26846: status 403
+No suitable image found for https://www.baggallini.com/womens-handbags-all/
+Failed to fetch https://www.katespadeoutlet.com/shop/handbags/view-all: status 403
+No suitable image found for https://www.belk.com/handbags/purses-handbags/
+Failed to fetch https://www.katespade.com/shop/handbags/view-all: status 403
+Failed to fetch https://www.fossil.com/en-us/sale/womens-sale/handbags/: status 403
+Failed to fetch https://www.coachoutlet.com/shop/bags/view-all: status 403
+No suitable image found for https://www.thredup.com/handbags
+Failed to fetch https://www.bloomingdales.com/shop/handbags?id=16958: status 403
+No suitable image found for https://www.nordstromrack.com/clearance/women/handbags
+Failed to fetch https://www.coach.com/shop/women/handbags/view-all: status 403
+Failed to fetch https://www.macys.com/shop/womens/handbags-wallets/handbags?id=27686: status 403
+Failed to fetch https://www.macys.com/stores/nj/jerseycity/handbags_174.html: status 403
+No suitable image found for https://www.dsw.com/category/accessories/bags
+Failed to fetch https://www.bloomingdales.com/shop/sale/handbags-purses?id=5070: status 403
+Filtered down to 22 results from initial results
+After filtering, got 22 shopping results
+Price analysis: min=$1.0, max=$100.0, avg=$55.196000000000005
+Returning 16 final results
+INFO:     127.0.0.1:58840 - "GET /dupes?q=handbags%20purses&max_results=16 HTTP/1.1" 200 OK
+Fetching 40 initial results for query: vneck wool - cashmere jumper limited edition
+No suitable image found for https://www.zara.com/us/en/v-neck-wool---cashmere-jumper-limited-edition-p02893328.html
+No suitable image found for https://extreme-cashmere.com/collections/v-neck-cashmere-sweaters?srsltid=AfmBOoodS3wh_Eg1sjRqCNrmxHKURAO3dXR4kOoel9XZc-6UzMlvMGow
+Failed to fetch https://www.jcrew.com/p/womens/categories/clothing/sweaters/pullovers/cashmere-relaxed-v-neck-sweater/BA394?srsltid=AfmBOoou6eZrIi_z1DHeD948SYFZ1vcO4-j5z0Qu2702XkEMu368CxeE: status 403
+Error scraping image from https://www.ebay.com/b/The-Limited-Womens-Cashmere-V-Neck-Sweaters-for-Women/63866/bn_120953827: 
+No suitable image found for https://www.repeatcashmere.com/en/limited-edition/sweaters/
+Failed to fetch https://www.bloomingdales.com/shop/womens-apparel/sweaters?id=12374: status 403
+Filtered down to 8 results from initial results
+After filtering, got 8 shopping results
+Price analysis: min=$None, max=$None, avg=$None
+Returning 8 final results
+INFO:     127.0.0.1:57214 - "GET /dupes?q=vneck%20wool%20-%20cashmere%20jumper%20limited%20edition&max_results=16 HTTP/1.1" 200 OK
+Fetching 40 initial results for query: blue strange rhinestone t-shirt
+No suitable image found for https://www.merriam-webster.com/dictionary/blue
+No suitable image found for https://www.colorpsychology.org/blue/
+No suitable image found for https://www.dictionary.com/browse/blue
+Failed to fetch https://www.bluezones.com/activate-riverside-county/: status 403
+No suitable image found for https://rhinestoneaura.com/collections/t-shirts
+No suitable image found for https://rhinestonesuperstore.com/
+No suitable image found for https://www.wrongweather.net/ca/shop/product/ic24484-blue-rhinestone-cones-bones-t-shirt
+No suitable image found for https://cooshwear.com/en/product/decorative-rhinestone-embellished-shirt-blue
+Failed to fetch https://rhinestonebelt.us/collections/rhinestone-tees: status 402
+Failed to fetch https://www.etsy.com/listing/1895206263/blue-men-t-shirt-mens-rhinestone-t: status 403
+No suitable image found for https://www.redbubble.com/shop/rhinestones+t-shirts
+No suitable image found for https://www.oliverbonas.com/fashion/blue-rhinestone-denim-shirt-375515
+Failed to fetch https://www.amazon.com/Marvel-Doctor-Strange-Costume-T-Shirt/dp/B088LNWW43: status 404
+No suitable image found for https://victray.com/collections/rhinestone-shirt
+No suitable image found for https://www.rockstaroriginal.com/cat/mens/tops/rhinestone
+No suitable image found for https://www.mondomens.com/collections/rhinestones-studs
+No suitable image found for https://bluorng.com/collections/t-shirts
+Failed to fetch https://www.vfwstore.org/products/gp349: status 404
+No suitable image found for https://www.pacsun.com/mens/graphic-tees/
+Filtered down to 27 results from initial results
+After filtering, got 27 shopping results
+Price analysis: min=$16.24, max=$16.24, avg=$16.24
+Returning 16 final results
+INFO:     127.0.0.1:56776 - "GET /dupes?q=blue%20strange%20rhinestone%20t-shirt&max_results=16 HTTP/1.1" 200 OK
+Fetching 40 initial results for query: pacific sunwear collegiate t-shirt
+No suitable image found for https://www.pacsun.com/pacsun/pacific-sunwear-collegiate-t-shirt-0097522800059.html
+No suitable image found for https://poshmark.com/listing/PACSUN-Pacific-Sunwear-Collegiate-TShirt-NWOT-6459aad6eb7e7a750c2cb2ba
+Error scraping image from https://www.pacsun-usa.com/womens-pacific-sunwear-collegiate-t-shirt-for-3white/7XPINK8K.htm: Exceeded maximum allowed redirects.
+No suitable image found for https://www.nordstromrack.com/s/pacific-sunwear-seal-graphic-t-shirt/7958729
+Error scraping image from https://www.worldatlas.com/oceans/pacific-ocean.html: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1029)
+No suitable image found for https://www.newworldencyclopedia.org/entry/Pacific_Ocean
+No suitable image found for https://www.dictionary.com/browse/pacific
+No suitable image found for https://suchscience.net/pacific-ocean/
+No suitable image found for https://time.is/PST
+Filtered down to 15 results from initial results
+After filtering, got 15 shopping results
+Price analysis: min=$89.0, max=$89.0, avg=$89.0
+Returning 15 final results
+INFO:     127.0.0.1:48448 - "GET /dupes?q=pacific%20sunwear%20collegiate%20t-shirt&max_results=16 HTTP/1.1" 200 OK
+Fetching 40 initial results for query: pacsun marble head t-shirt
+No suitable image found for https://www.pacsun.com/the-met/x-pacsun-marble-head-t-shirt-0097603260153.html
+No suitable image found for https://poshmark.com/listing/The-Met-x-PacSun-Medium-Marble-Head-TShirt-Greek-Roman-Sculpture-Blanc-De-Blanc-68b9e87f1986c240c36d18e6
+No suitable image found for https://www.pacsun.com/
+Failed to fetch https://www.ebay.com/itm/267103948462: status 404
+No suitable image found for https://poshmark.com/listing/Pacsun-marble-tee-61a7a25d180136ab82ab1de4
+No suitable image found for https://www.pacsun.com/mens/graphic-tees/
+Filtered down to 9 results from initial results
+After filtering, got 9 shopping results
+Price analysis: min=$49.99, max=$59.0, avg=$54.495000000000005
+Returning 9 final results
+INFO:     127.0.0.1:39342 - "GET /dupes?q=pacsun%20marble%20head%20t-shirt&max_results=16 HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'backend/app.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [12087]
+INFO:     Started server process [13494]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'backend/app.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [13494]
+INFO:     Started server process [13501]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'backend/app.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [13501]
+INFO:     Started server process [13503]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'backend/app.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [13503]
+INFO:     Started server process [13505]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+Fetching 50 initial results for query: dress
+Skipping non-shopping content: Dupe.com | #1 AI Dupe Finder for Furniture, Fashio
+Skipping non-shopping content: The Best Budget Alternatives To Luxe Clothing Bran
+Skipping non-shopping content: Designer Dress vs Affordable Alternative: Will any
+Fetching images for 2 items in parallel...
+No suitable image found for https://goodonyou.eco/alternatives-to-shein/
+Filtered down to 2 clothing/fashion results
+After filtering, got 2 clothing/fashion results
+Price analysis: min=$None, max=$None, avg=$None
+Returning 0 affordable clothing/fashion results
+INFO:     127.0.0.1:40994 - "GET /dupes?q=dress&max_results=20 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47128 - "GET /healthz HTTP/1.1" 200 OK
+Fetching 50 initial results for query: designer dress
+Skipping non-shopping content: Dupe.com | #1 AI Dupe Finder for Furniture, Fashio
+Skipping non-shopping content: The Best Luxury Fashion Dupes
+Skipping non-shopping content: Designer Dress vs Affordable Alternative: Will any
+Fetching images for 2 items in parallel...
+No suitable image found for https://goodonyou.eco/alternatives-to-shein/
+Filtered down to 2 clothing/fashion results
+After filtering, got 2 clothing/fashion results
+Price analysis: min=$None, max=$None, avg=$None
+Returning 0 affordable clothing/fashion results
+INFO:     127.0.0.1:59798 - "GET /dupes?q=designer+dress&max_results=20 HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'backend/app.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [13505]
+INFO:     Started server process [13942]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'backend/app.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [13942]
+INFO:     Started server process [13948]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'backend/app.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [13948]
+INFO:     Started server process [13951]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+Fetching 50 initial results for query: jacket
+Skipping non-shopping content: 11 Affordable Jackets Like Free People: Look For L
+Skipping non-shopping content: Affordable Fashion Alternatives | Carhartt, Fear o
+Skipping non-shopping content: Recent Posts - Page 29,558 - JLA FORUMS
+Skipping non-clothing item: Recent Posts - Page 16,041 - JLA FORUMS
+Skipping non-shopping content: Recent Posts - Page 31,178 - JLA FORUMS
+Skipping non-clothing item: Photo Galleries Search Results for "Headboard Full
+Skipping non-shopping content: Recent Posts - Page 57,885 - JLA FORUMS
+Fetching images for 9 items in parallel...
+No suitable image found for https://dupe.com/
+Failed to fetch http://www.jlaforums.com/viewforum.php?f=162: status 429
+Failed to fetch http://www.jlaforums.com/rss.php?f=636&t=1: status 429
+No suitable image found for https://www.thefinerefine.com/post/the-10-best-brands-to-shop-for-dupes-at-shein
+No suitable image found for https://www.fobwp.com/dupe-website-for-clothes-guide/
+No suitable image found for https://thechictribe.com/how-to-find-cheap-dupes-of-clothing-reddit/
+Failed to fetch http://www.jlaforums.com/viewforum.php?f=377&start=4901150: status 429
+Failed to fetch http://www.jlaforums.com/rss.php?f=47&t=1: status 429
+Failed to fetch http://www.jlaforums.com/rss.php?f=393&t=1: status 429
+Filtered down to 9 clothing/fashion results
+After filtering, got 9 clothing/fashion results
+Price analysis: min=$None, max=$None, avg=$None
+Returning 9 affordable clothing/fashion results
+INFO:     127.0.0.1:49750 - "GET /dupes?q=jacket&max_results=20 HTTP/1.1" 200 OK
+Fetching 50 initial results for query: sneakers
+Skipping non-shopping content: The Best Clothing, Shoes, and Fashion Dupes
+Fetching images for 2 items in parallel...
+No suitable image found for https://stridewise.com/common-projects-alternatives/
+Filtered down to 2 clothing/fashion results
+After filtering, got 2 clothing/fashion results
+Price analysis: min=$None, max=$None, avg=$None
+Returning 2 affordable clothing/fashion results
+INFO:     127.0.0.1:54632 - "GET /dupes?q=sneakers&max_results=24 HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'backend/app.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [13951]
+INFO:     Started server process [14181]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'backend/app.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for connections to close. (CTRL+C to force quit)
+/home/thewiseone/IS218/IS218ai/backend/app.py:646: RuntimeWarning: coroutine 'fetch_product_image' was never awaited
+  normalized = await normalize_with_images(raw, max_results * 2)
+RuntimeWarning: Enable tracemalloc to get the object allocation traceback
+Fetching 50 initial results for query: handbag
+Fetching images for 2 items in parallel...
+Image fetch timeout/error: Passing coroutines is forbidden, use tasks explicitly.
+Filtered down to 2 clothing/fashion results
+After filtering, got 2 clothing/fashion results
+Price analysis: min=$None, max=$None, avg=$None
+Returning 2 affordable clothing/fashion results
+INFO:     127.0.0.1:48750 - "GET /dupes?q=handbag&max_results=24 HTTP/1.1" 200 OK
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [14181]
+INFO:     Started server process [14266]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'backend/app.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [14266]
+INFO:     Started server process [14323]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'backend/app.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [14323]
+INFO:     Started server process [14329]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+/home/thewiseone/IS218/IS218ai/backend/app.py:626: RuntimeWarning: coroutine 'fetch_product_image' was never awaited
+  normalized = await normalize_with_images(raw, max_results * 2)
+RuntimeWarning: Enable tracemalloc to get the object allocation traceback
+Fetching 50 initial results for query: dress
+Fetching images for 5 items in parallel...
+Image fetch timeout/error: Passing coroutines is forbidden, use tasks explicitly.
+Filtered down to 5 clothing/fashion results
+After filtering, got 5 clothing/fashion results
+Price analysis: min=$None, max=$None, avg=$None
+Returning 5 affordable clothing/fashion results
+INFO:     127.0.0.1:50756 - "GET /dupes?q=dress&max_results=24 HTTP/1.1" 200 OK
+Fetching 50 initial results for query: sneakers
+Fetching images for 3 items in parallel...
+Image fetch timeout/error: Passing coroutines is forbidden, use tasks explicitly.
+Filtered down to 3 clothing/fashion results
+After filtering, got 3 clothing/fashion results
+Price analysis: min=$None, max=$None, avg=$None
+Returning 3 affordable clothing/fashion results
+INFO:     127.0.0.1:39076 - "GET /dupes?q=sneakers&max_results=24 HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'backend/app.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [14329]
+INFO:     Started server process [14468]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'backend/app.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [14468]
+INFO:     Started server process [14475]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+/home/thewiseone/IS218/IS218ai/backend/app.py:626: RuntimeWarning: coroutine 'fetch_product_image' was never awaited
+  normalized = await normalize_with_images(raw, max_results * 2)
+RuntimeWarning: Enable tracemalloc to get the object allocation traceback
+Fetching 50 initial results for query: jacket
+Fetching images for 14 items in parallel...
+Image fetch timeout/error: Passing coroutines is forbidden, use tasks explicitly.
+Filtered down to 14 clothing/fashion results
+After filtering, got 14 clothing/fashion results
+Price analysis: min=$None, max=$None, avg=$None
+Returning 14 affordable clothing/fashion results
+INFO:     127.0.0.1:59394 - "GET /dupes?q=jacket&max_results=24 HTTP/1.1" 200 OK
+Fetching 50 initial results for query: designer handbag
+Fetching images for 5 items in parallel...
+Image fetch timeout/error: Passing coroutines is forbidden, use tasks explicitly.
+Filtered down to 5 clothing/fashion results
+After filtering, got 5 clothing/fashion results
+Price analysis: min=$None, max=$None, avg=$None
+Returning 5 affordable clothing/fashion results
+INFO:     127.0.0.1:46808 - "GET /dupes?q=designer+handbag&max_results=24 HTTP/1.1" 200 OK
+Fetching 50 initial results for query: airforces
+Fetching images for 7 items in parallel...
+Image fetch timeout/error: Passing coroutines is forbidden, use tasks explicitly.
+Filtered down to 7 clothing/fashion results
+After filtering, got 7 clothing/fashion results
+Price analysis: min=$17.0, max=$70.0, avg=$43.5
+Returning 7 affordable clothing/fashion results
+INFO:     127.0.0.1:54912 - "GET /dupes?q=airforces&max_results=24 HTTP/1.1" 200 OK
+Fetching 50 initial results for query: black airforces
+Fetching images for 7 items in parallel...
+Image fetch timeout/error: Passing coroutines is forbidden, use tasks explicitly.
+Filtered down to 7 clothing/fashion results
+After filtering, got 7 clothing/fashion results
+Price analysis: min=$17.0, max=$70.0, avg=$43.5
+Returning 7 affordable clothing/fashion results
+INFO:     127.0.0.1:42592 - "GET /dupes?q=black%20airforces&max_results=24 HTTP/1.1" 200 OK
+Fetching 50 initial results for query: airforces
+Fetching images for 7 items in parallel...
+Image fetch timeout/error: Passing coroutines is forbidden, use tasks explicitly.
+Filtered down to 7 clothing/fashion results
+After filtering, got 7 clothing/fashion results
+Price analysis: min=$17.0, max=$70.0, avg=$43.5
+Returning 7 affordable clothing/fashion results
+INFO:     127.0.0.1:47716 - "GET /dupes?q=airforces&max_results=24 HTTP/1.1" 200 OK
+Fetching 50 initial results for query: airforces
+Fetching images for 7 items in parallel...
+Image fetch timeout/error: Passing coroutines is forbidden, use tasks explicitly.
+Filtered down to 7 clothing/fashion results
+After filtering, got 7 clothing/fashion results
+Price analysis: min=$17.0, max=$70.0, avg=$43.5
+Returning 7 affordable clothing/fashion results
+INFO:     127.0.0.1:47716 - "GET /dupes?q=airforces&max_results=24 HTTP/1.1" 200 OK
+Fetching 50 initial results for query: pusha t t-shirt
+Fetching images for 9 items in parallel...
+Image fetch timeout/error: Passing coroutines is forbidden, use tasks explicitly.
+Filtered down to 9 clothing/fashion results
+After filtering, got 9 clothing/fashion results
+Price analysis: min=$2999.0, max=$2999.0, avg=$2999.0
+Returning 9 affordable clothing/fashion results
+INFO:     127.0.0.1:39240 - "GET /dupes?q=pusha%20t%20t-shirt&max_results=24 HTTP/1.1" 200 OK
+Fetching 50 initial results for query: black airforces
+Fetching images for 7 items in parallel...
+Image fetch timeout/error: Passing coroutines is forbidden, use tasks explicitly.
+Filtered down to 7 clothing/fashion results
+After filtering, got 7 clothing/fashion results
+Price analysis: min=$17.0, max=$70.0, avg=$43.5
+Returning 7 affordable clothing/fashion results
+INFO:     127.0.0.1:52418 - "GET /dupes?q=black%20airforces&max_results=24 HTTP/1.1" 200 OK
+Fetching 50 initial results for query: def leppard album t-shirt
+Fetching 50 initial results for query: def leppard album t-shirt
+Fetching images for 9 items in parallel...
+Image fetch timeout/error: Passing coroutines is forbidden, use tasks explicitly.
+Filtered down to 9 clothing/fashion results
+After filtering, got 9 clothing/fashion results
+Price analysis: min=$10.0, max=$10.0, avg=$10.0
+Returning 9 affordable clothing/fashion results
+INFO:     127.0.0.1:36980 - "GET /dupes?q=def%20leppard%20album%20t-shirt&max_results=24 HTTP/1.1" 200 OK
+Fetching images for 9 items in parallel...
+Image fetch timeout/error: Passing coroutines is forbidden, use tasks explicitly.
+Filtered down to 9 clothing/fashion results
+After filtering, got 9 clothing/fashion results
+Price analysis: min=$10.0, max=$10.0, avg=$10.0
+Returning 9 affordable clothing/fashion results
+INFO:     127.0.0.1:54388 - "GET /dupes?q=def%20leppard%20album%20t-shirt&max_results=24 HTTP/1.1" 200 OK
+Fetching 50 initial results for query: def leppard album
+Filtered down to 0 clothing/fashion results
+After filtering, got 0 clothing/fashion results
+Price analysis: min=$None, max=$None, avg=$None
+Returning 0 affordable clothing/fashion results
+INFO:     127.0.0.1:56032 - "GET /dupes?q=def%20leppard%20album&max_results=24 HTTP/1.1" 200 OK
+Fetching 50 initial results for query: def leppard album
+Filtered down to 0 clothing/fashion results
+After filtering, got 0 clothing/fashion results
+Price analysis: min=$None, max=$None, avg=$None
+Returning 0 affordable clothing/fashion results
+INFO:     127.0.0.1:56032 - "GET /dupes?q=def%20leppard%20album&max_results=24 HTTP/1.1" 200 OK
+Fetching 50 initial results for query: def leppard album t-shirt
+Fetching images for 9 items in parallel...
+Image fetch timeout/error: Passing coroutines is forbidden, use tasks explicitly.
+Filtered down to 9 clothing/fashion results
+After filtering, got 9 clothing/fashion results
+Price analysis: min=$10.0, max=$10.0, avg=$10.0
+Returning 9 affordable clothing/fashion results
+INFO:     127.0.0.1:56032 - "GET /dupes?q=def%20leppard%20album%20t-shirt&max_results=24 HTTP/1.1" 200 OK
+Fetching 50 initial results for query: def leppard album t-shirt
+Fetching images for 9 items in parallel...
+Image fetch timeout/error: Passing coroutines is forbidden, use tasks explicitly.
+Filtered down to 9 clothing/fashion results
+After filtering, got 9 clothing/fashion results
+Price analysis: min=$10.0, max=$10.0, avg=$10.0
+Returning 9 affordable clothing/fashion results
+INFO:     127.0.0.1:56032 - "GET /dupes?q=def%20leppard%20album%20t-shirt&max_results=24 HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'backend/app.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [14475]
+INFO:     Started server process [21799]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'backend/app.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [21799]
+INFO:     Started server process [21802]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
